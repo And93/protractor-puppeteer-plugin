@@ -26,5 +26,9 @@
     "protractor": "5.4.2",
     "puppeteer-core": "1.20.0",
     "request-promise-native": "1.0.7"
+  },
+  "engines": {
+    "node": ">=8.9.1",
+    "npm": ">=5.7.1"
   }
 }

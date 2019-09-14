@@ -1,0 +1,30 @@
+{
+  "name": "protractor-puppeteer-plugin",
+  "version": "0.0.1",
+  "description": "plugin for merging puppeteer with protractor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/And93/protractor-puppeteer-plugin.git"
+  },
+  "keywords": [
+    "puppeteer",
+    "protractor",
+    "cdp",
+    "devtools"
+  ],
+  "author": "Andrei Dzeichyk (andreidei4ik@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/And93/protractor-puppeteer-plugin/issues"
+  },
+  "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
+  "dependencies": {
+    "protractor": "5.4.2",
+    "puppeteer-core": "1.20.0",
+    "request-promise-native": "1.0.7"
+  }
+}

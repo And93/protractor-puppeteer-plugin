@@ -57,6 +57,8 @@ or you would like to use some of the functions which returns from 'class: Puppet
         // myTest.js
         
         browser.puppeteer.devices
+   
+        ...
         
         browser.channel.target
         
@@ -92,12 +94,40 @@ In this case, you can switch this feature in a test and then override what you w
         browser.channel.page.on('request', _request => {
             _request.continue([overrides]);
         });
-    
     ```
     
     More details:
     * class: **Request**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-request
     * request.continue([overrides]): https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#requestcontinueoverrides
+
+#### Example
+```
+    // protractor.conf.js
+    plugins: [
+        {
+            package: 'protractor-puppeteer-plugin',
+            connectToBrowser: true,
+            sizeWindow: {
+                width: 1366,
+                height: 768
+            },
+            timeout: 60000,
+            catchRequests: true
+        }
+    ]
+
+    // myTest.js
+    describe('Suite name', () => {
+    
+        it('Test name', async () => {
+            await browser.get('https://angular.io/');
+            await browser.channel.page.waitForNavigation({waitUntil: 'networkidle0'})
+            await browser.channel.page.goto('https://cli.angular.io/', {waitUntil: 'networkidle0'});
+            await  browser.channel.page.waitForResponse('https://cli.angular.io/favicon.ico');
+            ...
+        });
+    });
+```
 
 ### Documentation
 Protractor:

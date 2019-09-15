@@ -118,12 +118,11 @@ In this case, you can switch this feature in a test and then override what you w
 
     // myTest.js
     describe('Suite name', () => {
-    
         it('Test name', async () => {
             await browser.get('https://angular.io/');
             await browser.channel.page.waitForNavigation({waitUntil: 'networkidle0'})
             await browser.channel.page.goto('https://cli.angular.io/', {waitUntil: 'networkidle0'});
-            await  browser.channel.page.waitForResponse('https://cli.angular.io/favicon.ico');
+            await browser.channel.page.waitForResponse('https://cli.angular.io/favicon.ico');
             ...
         });
     });

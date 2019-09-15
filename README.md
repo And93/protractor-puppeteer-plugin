@@ -32,7 +32,7 @@
     ]
 ```
 
-## How to use
+## How to use:
 
 1. If you would like to connect to browser by yourself
 or you would like to use some of the functions which returns from 'class: Puppeteer', you should use `puppeteer` property:
@@ -128,7 +128,7 @@ In this case, you can switch this feature in a test and then override what you w
     });
 ```
 
-### Documentation
+### Documentation:
 Protractor:
 * https://www.protractortest.org
 * https://github.com/angular/protractor
@@ -140,5 +140,5 @@ Puppeteer:
 Chrome DevTools Protocol:
 * https://chromedevtools.github.io/devtools-protocol/
 
-### Contacts
+### Contacts:
 andreidei4ik@gmail.com

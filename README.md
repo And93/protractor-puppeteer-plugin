@@ -100,7 +100,7 @@ In this case, you can switch this feature in a test and then override what you w
     * class: **Request**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-request
     * request.continue([overrides]): https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#requestcontinueoverrides
 
-#### Example
+#### Example:
 ```
     // protractor.conf.js
     plugins: [
@@ -123,7 +123,15 @@ In this case, you can switch this feature in a test and then override what you w
             await browser.channel.page.waitForNavigation({waitUntil: 'networkidle0'})
             await browser.channel.page.goto('https://cli.angular.io/', {waitUntil: 'networkidle0'});
             await browser.channel.page.waitForResponse('https://cli.angular.io/favicon.ico');
-            ...
+
+            const getStartedBrn = protractor.$('[href="https://angular.io/cli"]');
+            await browser.wait(protractor.ExpectedConditions.visibilityOf(getStartedBrn));
+            await getStartedBrn.click();
+
+            expect(protractor.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(
+                true,
+                'the get started page was not opened'
+            );
         });
     });
 ```

@@ -21,13 +21,13 @@
         {
             package: 'protractor-puppeteer-plugin',
             (or path: require.resolve('protractor-puppeteer-plugin'))
-            connectToBrowser: boolean, (Defailt: false)
+            connectToBrowser: boolean, (Default: false)
             sizeWindow: {
                 width: number, (Default: 800px)
-                height: number (Defailt: 600px)
+                height: number (Default: 600px)
             },
             timeout: number, (Default: 30000ms)
-            catchRequests: boolean (Defailt: false)
+            catchRequests: boolean (Default: false)
         }
     ]
 ```

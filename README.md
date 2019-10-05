@@ -3,7 +3,7 @@
 ## Dependencies:
 ```
     "@types/puppeteer": "1.20.1"
-    "protractor": "5.4.2",
+    "protractor": "5.4.2"
     "puppeteer-core": "1.20.0"
 ```
 
@@ -34,24 +34,28 @@
                         isLandscape?: boolean (Default: false)
                     },
                     ignoreHTTPSErrors?: boolean, (Default: false)
-                    slowMo?: number, (Default: 0ms)
+                    slowMo?: number (Default: 0ms)
                 },
                 timeout?: number, (Default: 30000ms)
-                catchRequests?: {
-                    finished?: boolean, (Default: false)
-                    failed?: boolean, (Default: false)
+                capture?: {
+                    setRequestInterception: boolean, (Default: false)
                     overrides?: {
                         url?: string,
                         method?: string,
                         postData?: string,
                         headers?: Object
-                    }
-                },
-                catchResponses?: boolean
+                    },
+                    catchRequests?: {
+                        finished?: boolean, (Default: false)
+                        failed?: boolean, (Default: false)
+                    },
+                    catchResponses?: boolean (Default: false)
+                }
             }
         }
     ]
 ```
+(!) Note: The `configFile` property takes precedence over the `configOptions` property.
 
 #### Documentation
 * [connectOptions]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions)
@@ -98,11 +102,11 @@ or you would like to use some of the functions which returns from 'class: Puppet
         browser.channel.browser
     ```
     More information about this class you can find here:
-    * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-puppeteer
-    * class: **Target**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-target
-    * class: **CDPSession**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-cdpsession
-    * class: **Page**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-page
-    * class: **Browser**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-browser
+    * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer
+    * class: **Target**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-target
+    * class: **CDPSession**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-cdpsession
+    * class: **Page**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-page
+    * class: **Browser**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser
 
 3. (!) If you would like to override some requests all headers, do not set `catchRequests` property in the config, because you will
 have the following error: `(node:5636) UnhandledPromiseRejectionWarning: Error: Request is already handled!`.
@@ -126,8 +130,8 @@ In this case, you can switch this feature in a test and then override what you w
     ```
     
     More details:
-    * class: **Request**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-request
-    * request.continue([overrides]): https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#requestcontinueoverrides
+    * class: **Request**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-request
+    * request.continue([overrides]): https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#requestcontinueoverrides
 
 #### Example:
 ```
@@ -149,7 +153,10 @@ In this case, you can switch this feature in a test and then override what you w
     describe('Suite name', () => {
         it('Test name', async () => {
             await browser.get('https://angular.io/');
-            await browser.channel.page.waitForNavigation({waitUntil: 'networkidle0'})
+            
+            await browser.$('#intro [href="start"]').click();
+            await browser.channel.page.waitForNavigation({waitUntil: 'networkidle0'});
+            
             await browser.channel.page.goto('https://cli.angular.io/', {waitUntil: 'networkidle0'});
             await browser.channel.page.waitForResponse('https://cli.angular.io/favicon.ico');
 

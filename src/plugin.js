@@ -1,6 +1,7 @@
 'use strict';
 const protractor = require("protractor");
 const puppeteer = require('puppeteer-core');
+const {resolve} = require('path');
 
 module.exports = async function () {
 
@@ -21,7 +22,8 @@ module.exports = async function () {
 
         const pluginLog = () => {
             const date = new Date();
-            return `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}] I/plugins - Protractor and Puppeteer`
+            const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
+            return `[${time}] I/plugins - Protractor and Puppeteer`;
         };
 
         const {configFile, configOptions} = plugin;
@@ -30,11 +32,10 @@ module.exports = async function () {
             connectToBrowser,
             connectOptions,
             timeout,
-            catchRequests,
-            catchResponses
-        } = configFile ? require.resolve(configFile) : configOptions;
+            capture
+        } = configFile ? require(resolve(configFile)) : configOptions;
 
-        let _puppeteer = {puppeteer};
+        let puppeteerExtendObj = {puppeteer};
 
         if (connectToBrowser && typeof connectToBrowser === 'boolean') {
             const _capabilities = await protractor.browser.getCapabilities();
@@ -53,40 +54,60 @@ module.exports = async function () {
                 page.setDefaultTimeout(timeout);
             }
 
-            if (catchRequests) {
-                const {finished, failed, overrides} = catchRequests;
-                await page.setRequestInterception(true);
+            if (capture) {
+                const {setRequestInterception, overrides, catchRequests, catchResponses} = capture;
 
-                page.on('request', request => {
-                    request.continue(overrides);
-                });
+                if (setRequestInterception) {
+                    await page.setRequestInterception(true);
 
-                if (finished) {
-                    page.on('requestfinished', request => {
-                        const logData = {
-                            url: request.url(),
-                            method: request.method(),
-                            postData: request.postData(),
-                            headers: request.headers(),
-                            status: request.response().status()
-                        };
-
-                        console.log(pluginLog(), '[Finished request]', logData);
+                    page.on('request', request => {
+                        request.continue(overrides);
                     });
-                }
 
-                if (failed) {
-                    page.on('requestfailed', request => {
-                        const logData = {
-                            url: request.url(),
-                            method: request.method(),
-                            postData: request.postData(),
-                            headers: request.headers(),
-                            status: request.response().status()
-                        };
+                    if (catchRequests) {
+                        const {finished, failed} = catchRequests;
 
-                        console.log(pluginLog(), '[Failed request]', logData);
+                        if (finished) {
+                            page.on('requestfinished', request => {
+                                const logData = {
+                                    url: request.url(),
+                                    method: request.method(),
+                                    postData: request.postData(),
+                                    headers: request.headers(),
+                                    status: request.response().status()
+                                };
 
+                                console.log(pluginLog(), '[Finished request]', logData);
+                            });
+                        }
+
+                        if (failed) {
+                            page.on('requestfailed', request => {
+                                const logData = {
+                                    url: request.url(),
+                                    method: request.method(),
+                                    postData: request.postData(),
+                                    headers: request.headers(),
+                                    status: request.response().status()
+                                };
+
+                                console.log(pluginLog(), '[Failed request]', logData);
+
+                                page.on('response', response => {
+                                    const logData = {
+                                        url: response.url(),
+                                        status: response.status(),
+                                        method: response.request().method(),
+                                        headers: response.headers()
+                                    };
+
+                                    console.log(pluginLog(), '[Response of failed request]', logData);
+                                });
+                            });
+                        }
+                    }
+
+                    if (catchResponses) {
                         page.on('response', response => {
                             const logData = {
                                 url: response.url(),
@@ -95,26 +116,13 @@ module.exports = async function () {
                                 headers: response.headers()
                             };
 
-                            console.log(pluginLog(), '[Response of failed request]', logData);
+                            console.log(pluginLog(), '[Response]', logData);
                         });
-                    });
+                    }
                 }
             }
 
-            if (catchResponses) {
-                page.on('response', response => {
-                    const logData = {
-                        url: response.url(),
-                        status: response.status(),
-                        method: response.request().method(),
-                        headers: response.headers()
-                    };
-
-                    console.log(pluginLog(), '[Response]', logData);
-                });
-            }
-
-            _puppeteer = {
+            puppeteerExtendObj = {
                 puppeteer,
                 channel: {
                     target,
@@ -125,7 +133,7 @@ module.exports = async function () {
             }
         }
 
-        Object.assign(protractor.ProtractorBrowser.prototype, _puppeteer);
+        Object.assign(protractor.ProtractorBrowser.prototype, puppeteerExtendObj);
         console.log(pluginLog(), 'were merged.');
     }
 };

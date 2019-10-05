@@ -1,6 +1,5 @@
 'use strict';
 const protractor = require("protractor");
-const request = require('request-promise-native');
 const puppeteer = require('puppeteer-core');
 
 module.exports = async function () {
@@ -20,8 +19,20 @@ module.exports = async function () {
             return;
         }
 
-        const date = new Date();
-        const {connectToBrowser, sizeWindow, timeout, catchRequests} = plugin;
+        const pluginLog = () => {
+            const date = new Date();
+            return `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}] I/plugins - Protractor and Puppeteer`
+        };
+
+        const {configFile, configOptions} = plugin;
+
+        const {
+            connectToBrowser,
+            connectOptions,
+            timeout,
+            catchRequests,
+            catchResponses
+        } = configFile ? require.resolve(configFile) : configOptions;
 
         let _puppeteer = {puppeteer};
 
@@ -29,39 +40,77 @@ module.exports = async function () {
             const _capabilities = await protractor.browser.getCapabilities();
             const {debuggerAddress} = _capabilities.get('goog:chromeOptions');
 
-            const {webSocketDebuggerUrl} = await request({
-                method: 'GET',
-                uri: `http://${debuggerAddress}/json/version`,
-                json: true
-            });
-
-            if (
-                !sizeWindow.hasOwnProperty('width')
-                || typeof sizeWindow.width !== 'number'
-                || !sizeWindow.hasOwnProperty('height')
-                || typeof sizeWindow.height !== 'number'
-            ) {
-                throw Error(`The property: "sizeWindow" is mandatory and must have the following types: sizeWindow: {width: number, height: number}`)
-            }
-
             const browser = await puppeteer.connect({
-                browserWSEndpoint: webSocketDebuggerUrl,
-                defaultViewport: sizeWindow
+                browserURL: `http://${debuggerAddress}`,
+                ...connectOptions
             });
 
             const target = await browser.waitForTarget(t => t.type() === 'page');
             const client = await target.createCDPSession();
             const page = await target.page();
 
-            if (timeout && typeof timeout === 'number') {
+            if (timeout) {
                 page.setDefaultTimeout(timeout);
             }
 
-            if (catchRequests && typeof catchRequests === 'boolean') {
-                await page.setRequestInterception(catchRequests);
+            if (catchRequests) {
+                const {finished, failed, overrides} = catchRequests;
+                await page.setRequestInterception(true);
 
-                page.on('request', _request => {
-                    _request.continue();
+                page.on('request', request => {
+                    request.continue(overrides);
+                });
+
+                if (finished) {
+                    page.on('requestfinished', request => {
+                        const logData = {
+                            url: request.url(),
+                            method: request.method(),
+                            postData: request.postData(),
+                            headers: request.headers(),
+                            status: request.response().status()
+                        };
+
+                        console.log(pluginLog(), '[Finished request]', logData);
+                    });
+                }
+
+                if (failed) {
+                    page.on('requestfailed', request => {
+                        const logData = {
+                            url: request.url(),
+                            method: request.method(),
+                            postData: request.postData(),
+                            headers: request.headers(),
+                            status: request.response().status()
+                        };
+
+                        console.log(pluginLog(), '[Failed request]', logData);
+
+                        page.on('response', response => {
+                            const logData = {
+                                url: response.url(),
+                                status: response.status(),
+                                method: response.request().method(),
+                                headers: response.headers()
+                            };
+
+                            console.log(pluginLog(), '[Response of failed request]', logData);
+                        });
+                    });
+                }
+            }
+
+            if (catchResponses) {
+                page.on('response', response => {
+                    const logData = {
+                        url: response.url(),
+                        status: response.status(),
+                        method: response.request().method(),
+                        headers: response.headers()
+                    };
+
+                    console.log(pluginLog(), '[Response]', logData);
                 });
             }
 
@@ -77,6 +126,6 @@ module.exports = async function () {
         }
 
         Object.assign(protractor.ProtractorBrowser.prototype, _puppeteer);
-        console.log(`[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}] I/plugins - Protractor and Puppeteer were merged.`);
+        console.log(pluginLog(), 'were merged.');
     }
 };

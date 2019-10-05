@@ -1,6 +1,6 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "plugin for merging puppeteer with protractor",
   "main": "index.js",
   "scripts": {
@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
   "dependencies": {
+    "@types/puppeteer": "1.20.1",
     "protractor": "5.4.2",
-    "puppeteer-core": "1.20.0",
-    "request-promise-native": "1.0.7"
+    "puppeteer-core": "1.20.0"
   },
   "engines": {
     "node": ">=8.9.1",

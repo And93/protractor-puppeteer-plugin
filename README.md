@@ -2,13 +2,13 @@
 
 ## Dependencies:
 ```
+    "@types/puppeteer": "1.20.1"
     "protractor": "5.4.2",
-    "puppeteer-core": "1.20.0",
-    "request-promise-native": "1.0.7"
+    "puppeteer-core": "1.20.0"
 ```
 
 ## Requirements:
-- Chrome
+- Chrome >=76 (because Puppeteer v1.20.0)
 - npm >=5.7.1
 - node >=8.9.1
 
@@ -21,16 +21,44 @@
         {
             package: 'protractor-puppeteer-plugin',
             (or path: require.resolve('protractor-puppeteer-plugin'))
-            connectToBrowser: boolean, (Defailt: false)
-            sizeWindow: {
-                width: number, (Default: 800px)
-                height: number (Defailt: 600px)
-            },
-            timeout: number, (Default: 30000ms)
-            catchRequests: boolean (Defailt: false)
+            configFile?: './path/to/puppeteer.conf.json',
+            configOptions?: {
+                connectToBrowser?: boolean, (Defailt: false)
+                connectOptions?: {
+                    defaultViewpor?: {
+                        width?: number, (Default: 800px)
+                        height?: number, (Defailt: 600px)
+                        deviceScaleFactor?: number, (Defailt: 1)
+                        isMobile?: boolean, (Defailt: false)
+                        hasTouch?: boolean, (Defailt: false)
+                        isLandscape?: boolean (Defailt: false)
+                    },
+                    ignoreHTTPSErrors?: boolean, (Defailt: false)
+                    slowMo?: number, (Defailt: 0ms)
+                },
+                timeout?: number, (Default: 30000ms)
+                catchRequests?: {
+                    finished?: boolean, (Defailt: false)
+                    failed?: boolean, (Defailt: false)
+                    overrides?: {
+                        url?: string,
+                        method?: string,
+                        postData?: string,
+                        headers?: Object
+                    }
+                },
+                catchResponses?: boolean
+            }
         }
     ]
 ```
+
+#### Documentation
+* [connectOptions]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions)
+* [timeout]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout)
+* [catchRequests]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-request)
+* [catchResponses]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-response)
+
 
 ## How to use:
 
@@ -40,16 +68,17 @@ or you would like to use some of the functions which returns from 'class: Puppet
     ```
         // myTest.js
         
-        browser.puppeteer.launch([options])
+        browser.puppeteer.launch([options]);
         browser.puppeteer.connect(options);
-        browser.puppeteer.createBrowserFetcher([options])
-        browser.puppeteer.defaultArgs([options])
-        browser.puppeteer.devices
+        browser.puppeteer.createBrowserFetcher([options]);
+        browser.puppeteer.defaultArgs([options]);
+        
+        const iDevices = browser.puppeteer.devices['iDevices'];
     
         etc.
     ``` 
     More information about this class you can find here:
-    * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/v1.20.0/docs/api.md#class-puppeteer
+    * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer
     
 2. If Puppeteer was connected by protractor-puppeteer-plugin, you should use `channel` property:
 

@@ -74,7 +74,11 @@ module.exports = async function () {
                                     method: request.method(),
                                     postData: request.postData(),
                                     headers: request.headers(),
-                                    status: request.response().status()
+                                    response: {
+                                        url: request.response().url(),
+                                        status: request.response().status(),
+                                        headers: request.response().headers()
+                                    }
                                 };
 
                                 console.log(pluginLog(), '[Finished request]', logData);
@@ -88,21 +92,15 @@ module.exports = async function () {
                                     method: request.method(),
                                     postData: request.postData(),
                                     headers: request.headers(),
-                                    status: request.response().status()
+                                    errorText: request.failure().errorText,
+                                    response: {
+                                        url: request.response().url(),
+                                        status: request.response().status(),
+                                        headers: request.response().headers()
+                                    }
                                 };
 
                                 console.log(pluginLog(), '[Failed request]', logData);
-
-                                page.on('response', response => {
-                                    const logData = {
-                                        url: response.url(),
-                                        status: response.status(),
-                                        method: response.request().method(),
-                                        headers: response.headers()
-                                    };
-
-                                    console.log(pluginLog(), '[Response of failed request]', logData);
-                                });
                             });
                         }
                     }
@@ -113,6 +111,7 @@ module.exports = async function () {
                                 url: response.url(),
                                 status: response.status(),
                                 method: response.request().method(),
+                                text: response.text(),
                                 headers: response.headers()
                             };
 

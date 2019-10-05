@@ -23,23 +23,23 @@
             (or path: require.resolve('protractor-puppeteer-plugin'))
             configFile?: './path/to/puppeteer.conf.json',
             configOptions?: {
-                connectToBrowser?: boolean, (Defailt: false)
+                connectToBrowser?: boolean, (Default: false)
                 connectOptions?: {
                     defaultViewpor?: {
                         width?: number, (Default: 800px)
-                        height?: number, (Defailt: 600px)
-                        deviceScaleFactor?: number, (Defailt: 1)
-                        isMobile?: boolean, (Defailt: false)
-                        hasTouch?: boolean, (Defailt: false)
-                        isLandscape?: boolean (Defailt: false)
+                        height?: number, (Default: 600px)
+                        deviceScaleFactor?: number, (Default: 1)
+                        isMobile?: boolean, (Default: false)
+                        hasTouch?: boolean, (Default: false)
+                        isLandscape?: boolean (Default: false)
                     },
-                    ignoreHTTPSErrors?: boolean, (Defailt: false)
-                    slowMo?: number, (Defailt: 0ms)
+                    ignoreHTTPSErrors?: boolean, (Default: false)
+                    slowMo?: number, (Default: 0ms)
                 },
                 timeout?: number, (Default: 30000ms)
                 catchRequests?: {
-                    finished?: boolean, (Defailt: false)
-                    failed?: boolean, (Defailt: false)
+                    finished?: boolean, (Default: false)
+                    failed?: boolean, (Default: false)
                     overrides?: {
                         url?: string,
                         method?: string,

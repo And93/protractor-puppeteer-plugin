@@ -1,4 +1,5 @@
 'use strict';
+
 const protractor = require("protractor");
 const puppeteer = require('puppeteer-core');
 const {resolve} = require('path');

@@ -45,11 +45,9 @@
                         postData?: string,
                         headers?: Object
                     },
-                    catchRequests?: {
-                        finished?: boolean, (Default: false)
-                        failed?: boolean, (Default: false)
-                    },
-                    catchResponses?: boolean (Default: false)
+                    requestfinished?: boolean, (Default: false)
+                    requestfailed?: boolean, (Default: false)
+                    response?: boolean (Default: false)
                 }
             }
         }
@@ -58,10 +56,10 @@
 (!) Note: The `configFile` property takes precedence over the `configOptions` property.
 
 #### Documentation
-* [connectOptions]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions)
-* [timeout]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout)
-* [catchRequests]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-request)
-* [catchResponses]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-response)
+* `connectOptions`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions
+* `timeout`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout
+* `catchRequests`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-request
+* `catchResponses`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-response
 
 
 ## How to use:
@@ -108,7 +106,7 @@ or you would like to use some of the functions which returns from 'class: Puppet
     * class: **Page**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-page
     * class: **Browser**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser
 
-3. (!) If you would like to override some requests all headers, do not set `catchRequests` property in the config, because you will
+3. [FIX] (!) If you would like to override some requests all headers, do not set `catchRequests` property in the config, because you will
 have the following error: `(node:5636) UnhandledPromiseRejectionWarning: Error: Request is already handled!`.
 In this case, you can switch this feature in a test and then override what you wish.
 
@@ -153,21 +151,16 @@ In this case, you can switch this feature in a test and then override what you w
     describe('Suite name', () => {
         it('Test name', async () => {
             await browser.get('https://angular.io/');
-            
-            await browser.$('#intro [href="start"]').click();
-            await browser.channel.page.waitForNavigation({waitUntil: 'networkidle0'});
-            
-            await browser.channel.page.goto('https://cli.angular.io/', {waitUntil: 'networkidle0'});
-            await browser.channel.page.waitForResponse('https://cli.angular.io/favicon.ico');
-
-            const getStartedBrn = protractor.$('[href="https://angular.io/cli"]');
-            await browser.wait(protractor.ExpectedConditions.visibilityOf(getStartedBrn));
+            await browser.$('.hero-background a[href="https://angular.io/cli"]').click();
+            await page.waitForNavigation({waitUntil: 'networkidle0'});
+            await page.waitForSelector('#start', {visible: true, hidden: false});
+            await page.goto('https://cli.angular.io/', {waitUntil: ['networkidle0', 'domcontentloaded']});
+            await page.waitForResponse('https://cli.angular.io/favicon.ico');
+            const getStartedBrn = browser.$('[href="https://angular.io/cli"]');
+            await browser.wait(ExpectedConditions.visibilityOf(getStartedBrn));
             await getStartedBrn.click();
 
-            expect(protractor.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(
-                true,
-                'the get started page was not opened'
-            );
+            expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(true, 'The "Get started" page was not opened');
         });
     });
 ```

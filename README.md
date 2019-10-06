@@ -161,7 +161,7 @@ The `channel` property provides to use all features of Puppeteer after merging w
         connectOptions: {
             defaultViewpor: {
                 width: 1366,
-                height?: 768,
+                height: 768,
             }
         },
         timeout: 60000,

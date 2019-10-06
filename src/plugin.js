@@ -55,7 +55,7 @@ module.exports = async function () {
             }
 
             if (capture) {
-                const {setRequestInterception, overrides, catchRequests, catchResponses} = capture;
+                const {setRequestInterception, overrides, requestfinished, requestfailed, response} = capture;
 
                 if (setRequestInterception) {
                     await page.setRequestInterception(true);
@@ -64,55 +64,51 @@ module.exports = async function () {
                         request.continue(overrides);
                     });
 
-                    if (catchRequests) {
-                        const {finished, failed} = catchRequests;
+                    if (requestfinished) {
+                        page.on('requestfinished', request => {
+                            const logData = {
+                                url: request.url(),
+                                method: request.method(),
+                                postData: request.postData(),
+                                headers: request.headers(),
+                                response: {
+                                    url: request.response().url(),
+                                    status: request.response().status(),
+                                    headers: request.response().headers()
+                                }
+                            };
 
-                        if (finished) {
-                            page.on('requestfinished', request => {
-                                const logData = {
-                                    url: request.url(),
-                                    method: request.method(),
-                                    postData: request.postData(),
-                                    headers: request.headers(),
-                                    response: {
-                                        url: request.response().url(),
-                                        status: request.response().status(),
-                                        headers: request.response().headers()
-                                    }
-                                };
-
-                                console.log(pluginLog(), '[Finished request]', logData);
-                            });
-                        }
-
-                        if (failed) {
-                            page.on('requestfailed', request => {
-                                const logData = {
-                                    url: request.url(),
-                                    method: request.method(),
-                                    postData: request.postData(),
-                                    headers: request.headers(),
-                                    errorText: request.failure().errorText,
-                                    response: {
-                                        url: request.response().url(),
-                                        status: request.response().status(),
-                                        headers: request.response().headers()
-                                    }
-                                };
-
-                                console.log(pluginLog(), '[Failed request]', logData);
-                            });
-                        }
+                            console.log(pluginLog(), '[Finished request]', logData);
+                        });
                     }
 
-                    if (catchResponses) {
-                        page.on('response', response => {
+                    if (requestfailed) {
+                        page.on('requestfailed', request => {
                             const logData = {
-                                url: response.url(),
-                                status: response.status(),
-                                method: response.request().method(),
-                                text: response.text(),
-                                headers: response.headers()
+                                url: request.url(),
+                                method: request.method(),
+                                postData: request.postData(),
+                                headers: request.headers(),
+                                errorText: request.failure().errorText,
+                                response: {
+                                    url: request.response().url(),
+                                    status: request.response().status(),
+                                    headers: request.response().headers()
+                                }
+                            };
+
+                            console.log(pluginLog(), '[Failed request]', logData);
+                        });
+                    }
+
+                    if (response) {
+                        page.on('response', _response => {
+                            const logData = {
+                                url: _response.url(),
+                                status: _response.status(),
+                                method: _response.request().method(),
+                                text: _response.text(),
+                                headers: _response.headers()
                             };
 
                             console.log(pluginLog(), '[Response]', logData);

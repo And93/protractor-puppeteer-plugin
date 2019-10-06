@@ -45,11 +45,9 @@
                         postData?: string,
                         headers?: Object
                     },
-                    catchRequests?: {
-                        finished?: boolean, (Default: false)
-                        failed?: boolean, (Default: false)
-                    },
-                    catchResponses?: boolean (Default: false)
+                    requestfinished?: boolean, (Default: false)
+                    requestfailed?: boolean, (Default: false)
+                    response?: boolean (Default: false)
                 }
             }
         }
@@ -57,17 +55,55 @@
 ```
 (!) Note: The `configFile` property takes precedence over the `configOptions` property.
 
+#### What should 'configFile' contain?
+
+The `configFile` must be .json extension and contains the following properties.
+
+E.g.:
+```
+    {
+        connectToBrowser?: boolean, (Default: false)
+        connectOptions?: {
+           defaultViewpor?: {
+               width?: number, (Default: 800px)
+               height?: number, (Default: 600px)
+               deviceScaleFactor?: number, (Default: 1)
+               isMobile?: boolean, (Default: false)
+               hasTouch?: boolean, (Default: false)
+               isLandscape?: boolean (Default: false)
+           },
+           ignoreHTTPSErrors?: boolean, (Default: false)
+           slowMo?: number (Default: 0ms)
+        },
+        timeout?: number, (Default: 30000ms)
+        capture?: {
+           setRequestInterception: boolean, (Default: false)
+           overrides?: {
+               url?: string,
+               method?: string,
+               postData?: string,
+               headers?: Object
+           },
+           requestfinished?: boolean, (Default: false)
+           requestfailed?: boolean, (Default: false)
+           response?: boolean (Default: false)
+        }
+    }
+```
+
 #### Documentation
-* [connectOptions]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions)
-* [timeout]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout)
-* [catchRequests]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-request)
-* [catchResponses]|(https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-response)
+* `connectOptions`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions
+* `timeout`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout
+* `capture`:
+    * `request`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-request
+    * `response`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-response
 
 
 ## How to use:
 
 1. If you would like to connect to browser by yourself
-or you would like to use some of the functions which returns from 'class: Puppeteer', you should use `puppeteer` property:
+or you would like to use some of the functions which returns from 'class: Puppeteer',
+you should use `puppeteer` property:
 
     ```
         // myTest.js
@@ -84,7 +120,8 @@ or you would like to use some of the functions which returns from 'class: Puppet
     More information about this class you can find here:
     * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer
     
-2. If Puppeteer was connected by protractor-puppeteer-plugin, you should use `channel` property:
+2. If Puppeteer was connected by protractor-puppeteer-plugin, you should use `channel` property.
+The `channel` property provides to use all features of Puppeteer after merging with Protractor.
 
     ```
         // myTest.js
@@ -108,66 +145,46 @@ or you would like to use some of the functions which returns from 'class: Puppet
     * class: **Page**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-page
     * class: **Browser**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser
 
-3. (!) If you would like to override some requests all headers, do not set `catchRequests` property in the config, because you will
-have the following error: `(node:5636) UnhandledPromiseRejectionWarning: Error: Request is already handled!`.
-In this case, you can switch this feature in a test and then override what you wish.
-
-    ```
-        // catchRequests: true
-        
-        browser.channel.page.on('requestfailed', _request => {
-            console.log(`requestfailed: ${_request.url()} ${_request.failure().errorText}`);
-            console.log(_request.headers());
-        });
-    
-        // catchRequests: false
-        
-        browser.channel.page.setRequestInterception(true);
-    
-        browser.channel.page.on('request', _request => {
-            _request.continue([overrides]);
-        });
-    ```
-    
-    More details:
-    * class: **Request**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-request
-    * request.continue([overrides]): https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#requestcontinueoverrides
-
 #### Example:
 ```
     // protractor.conf.js
     plugins: [
         {
             package: 'protractor-puppeteer-plugin',
-            connectToBrowser: true,
-            sizeWindow: {
-                width: 1366,
-                height: 768
-            },
-            timeout: 60000,
-            catchRequests: true
+            configFile: './path/to/puppeteer.conf.json'
         }
     ]
 
+    // puppeteer.conf.json
+    {
+        connectToBrowser: true,
+        connectOptions: {
+            defaultViewpor: {
+                width: 1366,
+                height?: 768,
+            }
+        },
+        timeout: 60000,
+        capture: {
+            setRequestInterception: true,
+            requestfailed: true
+        }
+    }   
+    
     // myTest.js
     describe('Suite name', () => {
         it('Test name', async () => {
             await browser.get('https://angular.io/');
-            
-            await browser.$('#intro [href="start"]').click();
+            await browser.$('.hero-background a[href="https://angular.io/cli"]').click();
             await browser.channel.page.waitForNavigation({waitUntil: 'networkidle0'});
-            
-            await browser.channel.page.goto('https://cli.angular.io/', {waitUntil: 'networkidle0'});
+            await browser.channel.page.waitForSelector('#start', {visible: true, hidden: false});
+            await browser.channel.page.goto('https://cli.angular.io/', {waitUntil: ['networkidle0', 'domcontentloaded']});
             await browser.channel.page.waitForResponse('https://cli.angular.io/favicon.ico');
-
-            const getStartedBrn = protractor.$('[href="https://angular.io/cli"]');
-            await browser.wait(protractor.ExpectedConditions.visibilityOf(getStartedBrn));
+            const getStartedBrn = browser.$('[href="https://angular.io/cli"]');
+            await browser.wait(ExpectedConditions.visibilityOf(getStartedBrn));
             await getStartedBrn.click();
 
-            expect(protractor.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(
-                true,
-                'the get started page was not opened'
-            );
+            expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(true, 'The "Get started" page was not opened');
         });
     });
 ```
@@ -179,7 +196,11 @@ Protractor:
 
 Puppeteer:
 * https://pptr.dev/
-* https://github.com/GoogleChrome/puppeteer 
+* https://github.com/GoogleChrome/puppeteer
+* https://try-puppeteer.appspot.com/
+* https://developers.google.com/web/tools/puppeteer
+* Examples:
+    * https://developers.google.com/web/tools/puppeteer/examples
 
 Chrome DevTools Protocol:
 * https://chromedevtools.github.io/devtools-protocol/

@@ -13,6 +13,7 @@
   "keywords": [
     "puppeteer",
     "protractor",
+    "chrome devtools protocol",
     "cdp",
     "devtools"
   ],

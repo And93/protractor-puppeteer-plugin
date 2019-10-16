@@ -25,7 +25,7 @@
             configOptions?: {
                 connectToBrowser?: boolean, (Default: false)
                 connectOptions?: {
-                    defaultViewpor?: {
+                    defaultViewport?: {
                         width?: number, (Default: 800px)
                         height?: number, (Default: 600px)
                         deviceScaleFactor?: number, (Default: 1)
@@ -64,7 +64,7 @@ E.g.:
     {
         connectToBrowser?: boolean, (Default: false)
         connectOptions?: {
-           defaultViewpor?: {
+           defaultViewport?: {
                width?: number, (Default: 800px)
                height?: number, (Default: 600px)
                deviceScaleFactor?: number, (Default: 1)
@@ -159,7 +159,7 @@ The `channel` property provides to use all features of Puppeteer after merging w
     {
         connectToBrowser: true,
         connectOptions: {
-            defaultViewpor: {
+            defaultViewport: {
                 width: 1366,
                 height: 768,
             }

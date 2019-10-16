@@ -24,7 +24,7 @@ module.exports = async function () {
         const pluginLog = () => {
             const date = new Date();
             const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
-            return `[${time}] I/plugins - Protractor and Puppeteer`;
+            return `[${time}] I/plugins - PID: ${process.pid}. Protractor and Puppeteer`;
         };
 
         const {configFile, configOptions} = plugin;

@@ -18,7 +18,7 @@ module.exports = async function () {
             plugin.hasOwnProperty('package') && plugin.package !== 'protractor-puppeteer-plugin'
             || plugin.hasOwnProperty('path') && !plugin.path.includes('protractor-puppeteer-plugin')
         ) {
-            return;
+            continue;
         }
 
         const pluginLog = () => {

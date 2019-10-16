@@ -25,8 +25,10 @@
   "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
   "dependencies": {
     "@types/puppeteer": "1.20.1",
-    "protractor": "5.4.2",
     "puppeteer-core": "1.20.0"
+  },
+  "peerDependencies": {
+    "protractor": "^5.0.0"
   },
   "engines": {
     "node": ">=8.9.1",

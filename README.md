@@ -2,13 +2,13 @@
 
 ## Dependencies:
 ```
-    "@types/puppeteer": "1.20.1"
-    "protractor": "5.4.2"
-    "puppeteer-core": "1.20.0"
+    "@types/puppeteer": "2.0.0"
+    "chrome-har": "0.11.4",
+    "puppeteer-core": "2.0.0"
 ```
 
 ## Requirements:
-- Chrome >=76 (because Puppeteer v1.20.0)
+- Chrome >=76
 - npm >=5.7.1
 - node >=8.9.1
 
@@ -37,8 +37,10 @@
                     slowMo?: number (Default: 0ms)
                 },
                 timeout?: number, (Default: 30000ms)
+                harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
                 capture?: {
                     setRequestInterception: boolean, (Default: false)
+                    logsDir?: './path/to/artifatcs/dir/', (Default: './artifacts/network/')
                     overrides?: {
                         url?: string,
                         method?: string,
@@ -76,8 +78,10 @@ E.g.:
            slowMo?: number (Default: 0ms)
         },
         timeout?: number, (Default: 30000ms)
+        harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
         capture?: {
            setRequestInterception: boolean, (Default: false)
+           logsDir?: './path/to/artifatcs/dir/', (Default: './artifacts/network/')
            overrides?: {
                url?: string,
                method?: string,
@@ -144,6 +148,13 @@ The `channel` property provides to use all features of Puppeteer after merging w
     * class: **CDPSession**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-cdpsession
     * class: **Page**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-page
     * class: **Browser**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser
+
+3. For saving har files (with all calls from network) use:
+    ```
+   await browser.har.start();
+   // test actions
+   await browser.har.stop();
+   ```
 
 #### Example:
 ```

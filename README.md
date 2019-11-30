@@ -1,5 +1,8 @@
 # Protractor-puppeteer plugin
 
+(!) This plugin can be used only for local run.
+Running autotests in Docker, remote aren't supported yet. (TODO)
+
 ## Dependencies:
 ```
     "@types/puppeteer": "2.0.0"

@@ -14,4 +14,6 @@ class LogHelper {
     }
 }
 
-module.exports = new LogHelper();
+const logHelper = new LogHelper();
+
+module.exports = {logHelper};

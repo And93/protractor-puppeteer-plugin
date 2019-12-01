@@ -47,14 +47,10 @@ module.exports = async function () {
             const client = await target.createCDPSession();
             const page = await target.page();
 
-            let har;
+            const har = new HarHelper(page, harDir);
 
             if (timeout) {
                 page.setDefaultTimeout(timeout);
-            }
-
-            if (harDir) {
-                har = new HarHelper(page, harDir);
             }
 
             if (capture) {

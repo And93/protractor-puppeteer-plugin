@@ -1,5 +1,5 @@
 'use strict';
-const {createWriteStream, mkdirSync} = require('fs');
+const {createWriteStream, mkdirSync, existsSync} = require('fs');
 const {join, resolve} = require('path');
 
 class FileSystemHelper {
@@ -12,7 +12,9 @@ class FileSystemHelper {
     }
 
     makeDir() {
-        return mkdirSync(this.getDirPath());
+        if (!existsSync(this.getDirPath())) {
+            return mkdirSync(this.getDirPath());
+        }
     }
 
     writeFileStream(data, name, encoding) {

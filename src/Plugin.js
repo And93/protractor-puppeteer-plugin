@@ -1,38 +1,11 @@
-import {resolve} from 'path';
-import {protractor} from 'protractor';
-import * as puppeteer from 'puppeteer-core';
-import {HarHelper} from './helpers/HarHelper';
-import {logHelper} from './helpers/LogHelper';
-import {NetworkHelper} from './helpers/NetworkHelper';
+const {resolve} = require('path');
+const protractor = require("protractor");
+const puppeteer = require('puppeteer-core');
+const {HarHelper} = require('./helpers/HarHelper');
+const {logHelper} = require('./helpers/LogHelper');
+const {NetworkHelper} = require('./helpers/NetworkHelper');
 
-interface IPlugin {
-    connectToBrowser?: boolean,
-    connectOptions?: puppeteer.ConnectOptions,
-    timeout?: number,
-    harDir?: string,
-    capture?: {
-        setRequestInterception: boolean,
-        logsDir?: string,
-        overrides?: puppeteer.Overrides,
-        requestfinished?: boolean,
-        requestfailed?: boolean,
-        response?: boolean
-    }
-}
-
-interface IPuppeteerExtendObj {
-    // @ts-ignore
-    puppeteer: puppeteer,
-    har?: HarHelper,
-    channel?: {
-        target: puppeteer.Target,
-        client: puppeteer.CDPSession,
-        page: puppeteer.Page,
-        browser: puppeteer.Browser
-    }
-}
-
-export async function setup(): Promise<void> {
+module.exports = async function () {
 
     const {capabilities, plugins} = await protractor.browser.getProcessedConfig();
 
@@ -57,9 +30,9 @@ export async function setup(): Promise<void> {
             timeout,
             harDir,
             capture
-        } = (configFile ? require(resolve(configFile)) : configOptions) as IPlugin;
+        } = configFile ? require(resolve(configFile)) : configOptions;
 
-        let puppeteerExtendObj: IPuppeteerExtendObj = {puppeteer};
+        let puppeteerExtendObj = {puppeteer};
 
         if (connectToBrowser) {
             const _capabilities = await protractor.browser.getCapabilities();
@@ -70,11 +43,11 @@ export async function setup(): Promise<void> {
                 ...connectOptions
             });
 
-            const target = await browser.waitForTarget((t: puppeteer.Target) => t.type() === 'page');
+            const target = await browser.waitForTarget(t => t.type() === 'page');
             const client = await target.createCDPSession();
             const page = await target.page();
 
-            let har!: HarHelper;
+            let har;
 
             if (timeout) {
                 page.setDefaultTimeout(timeout);
@@ -93,7 +66,7 @@ export async function setup(): Promise<void> {
 
                     await networkHelper.setRequestInterception(true);
 
-                    networkHelper.catchTraffic('request', 'on', (request: puppeteer.Request) => {
+                    networkHelper.catchTraffic('request', 'on', request => {
                         request.continue(overrides);
                     });
 
@@ -126,4 +99,4 @@ export async function setup(): Promise<void> {
         Object.assign(protractor.ProtractorBrowser.prototype, puppeteerExtendObj);
         logHelper.generate('Protractor and Puppeteer', 'were merged.').print();
     }
-}
+};

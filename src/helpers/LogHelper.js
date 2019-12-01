@@ -1,18 +1,17 @@
-export class LogHelper {
+'use strict';
 
-    private _log!: string;
+class LogHelper {
 
-    public generate(from: string, value: string): LogHelper {
+    generate(from, value) {
         const date = new Date();
         const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
         this._log = `[${time}] [${from}] PID: ${process.pid}. ${value}`;
         return this;
     }
 
-    public print(): void {
-        // tslint:disable-next-line:no-console
+    print() {
         console.log(this._log);
     }
 }
 
-export const logHelper = new LogHelper();
+module.exports = new LogHelper();

@@ -93,6 +93,6 @@ module.exports = async function () {
         }
 
         Object.assign(protractor.ProtractorBrowser.prototype, puppeteerExtendObj);
-        logHelper.generate('Protractor and Puppeteer', 'were merged.').print();
+        logHelper.generate('Protractor and Puppeteer', 'Plugin added successfully.').print();
     }
 };

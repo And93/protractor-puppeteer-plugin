@@ -4,7 +4,7 @@ const {resolve} = require('path');
 const protractor = require('protractor');
 const puppeteer = require('puppeteer-core');
 const {HarHelper} = require('./helpers/HarHelper');
-const {logHelper} = require('./helpers/LogHelper');
+const logHelper = require('./helpers/LogHelper');
 
 module.exports = async function () {
 

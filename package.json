@@ -1,17 +1,20 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "0.0.3",
-  "description": "plugin for merging puppeteer with protractor",
+  "version": "0.0.4",
+  "description": "Plugin for merging puppeteer with protractor",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/And93/protractor-puppeteer-plugin.git"
   },
   "keywords": [
+    "automation",
     "puppeteer",
     "protractor",
     "chrome devtools protocol",
+    "chrome",
     "cdp",
+    "har",
     "devtools"
   ],
   "author": "Andrei Dzeichyk (andreidei4ik@gmail.com)",
@@ -24,6 +27,9 @@
     "@types/puppeteer-core": "2.0.0",
     "chrome-har": "0.11.4",
     "puppeteer-core": "2.0.0"
+  },
+  "devDependencies": {
+    "protractor": "^5.0.0"
   },
   "peerDependencies": {
     "protractor": "^5.0.0"

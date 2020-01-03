@@ -11,9 +11,8 @@ class LogHelper {
 
     print() {
         console.log(this._log);
+        this._log = '';
     }
 }
 
-const logHelper = new LogHelper();
-
-module.exports = {logHelper};
+module.exports = new LogHelper();

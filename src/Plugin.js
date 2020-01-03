@@ -1,9 +1,10 @@
+'use strict';
+
 const {resolve} = require('path');
-const protractor = require("protractor");
+const protractor = require('protractor');
 const puppeteer = require('puppeteer-core');
 const {HarHelper} = require('./helpers/HarHelper');
 const {logHelper} = require('./helpers/LogHelper');
-const {NetworkHelper} = require('./helpers/NetworkHelper');
 
 module.exports = async function () {
 
@@ -16,8 +17,8 @@ module.exports = async function () {
     for (const plugin of plugins) {
 
         if (
-            plugin.hasOwnProperty('package') && plugin.package !== 'protractor-puppeteer-plugin'
-            || plugin.hasOwnProperty('path') && !plugin.path.includes('protractor-puppeteer-plugin')
+            'package' in plugin && plugin.package !== 'protractor-puppeteer-plugin'
+            || 'path' in plugin && !plugin.path.includes('protractor-puppeteer-plugin')
         ) {
             continue;
         }
@@ -29,7 +30,7 @@ module.exports = async function () {
             connectOptions,
             timeout,
             harDir,
-            capture
+            defaultArgs
         } = configFile ? require(resolve(configFile)) : configOptions;
 
         let puppeteerExtendObj = {puppeteer};
@@ -37,6 +38,10 @@ module.exports = async function () {
         if (connectToBrowser) {
             const _capabilities = await protractor.browser.getCapabilities();
             const {debuggerAddress} = _capabilities.get('goog:chromeOptions');
+
+            if (defaultArgs) {
+                puppeteer.defaultArgs(debuggerAddress);
+            }
 
             const browser = await puppeteer.connect({
                 browserURL: `http://${debuggerAddress}`,
@@ -53,37 +58,10 @@ module.exports = async function () {
                 page.setDefaultTimeout(timeout);
             }
 
-            if (capture) {
-                const {setRequestInterception, logsDir, overrides, requestfinished, requestfailed, response} = capture;
-
-                if (setRequestInterception) {
-
-                    const networkHelper = new NetworkHelper(page, logsDir);
-
-                    await networkHelper.setRequestInterception(true);
-
-                    networkHelper.catchTraffic('request', 'on', request => {
-                        request.continue(overrides);
-                    });
-
-                    if (requestfinished) {
-                        networkHelper.catchTrafficAndWriteFile('requestfinished');
-                    }
-
-                    if (requestfailed) {
-                        networkHelper.catchTrafficAndWriteFile('requestfailed');
-                    }
-
-                    if (response) {
-                        networkHelper.catchTrafficAndWriteFile('response');
-                    }
-                }
-            }
-
             puppeteerExtendObj = {
                 puppeteer,
                 har,
-                channel: {
+                cdp: {
                     target,
                     client,
                     page,

@@ -59,27 +59,27 @@ The `configFile` must be `.json` extension and contains the following properties
 E.g.:
 ```
     {
-        connectToBrowser?: boolean, (Default: false)
-        connectOptions?: {
-           defaultViewport?: {
-               width?: number, (Default: 800px)
-               height?: number, (Default: 600px)
-               deviceScaleFactor?: number, (Default: 1)
-               isMobile?: boolean, (Default: false)
-               hasTouch?: boolean, (Default: false)
-               isLandscape?: boolean (Default: false)
+        "connectToBrowser"?: boolean, (Default: false)
+        "connectOptions"?: {
+           "defaultViewport"?: {
+               "width"?: number, (Default: 800px)
+               "height"?: number, (Default: 600px)
+               "deviceScaleFactor"?: number, (Default: 1)
+               "isMobile"?: boolean, (Default: false)
+               "hasTouch"?: boolean, (Default: false)
+               "isLandscape"?: boolean (Default: false)
            },
-           ignoreHTTPSErrors?: boolean, (Default: false)
-           slowMo?: number (Default: 0ms)
+           "ignoreHTTPSErrors"?: boolean, (Default: false)
+           "slowMo"?: number (Default: 0ms)
         },
-        timeout?: number, (Default: 30000ms)
-        defaultArgs?: {
-            headless?: boolean,
-            args?: Array<string>,
-            userDataDir?: string,
-            devtools?: boolean
+        "timeout"?: number, (Default: 30000ms)
+        "defaultArgs"?: {
+            "headless"?: boolean,
+            "args"?: Array<string>,
+            "userDataDir"?: string,
+            "devtools"?: boolean
         },
-        harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
+        "harDir"?: "./path/to/artifatcs/dir/", (Default: "./artifacts/har/")
     }
 ```
 
@@ -172,14 +172,14 @@ More arguments you can find here:
 
     // puppeteer.conf.json
     {
-        connectToBrowser: true,
-        connectOptions: {
-            defaultViewport: {
-                width: 1366,
-                height: 768,
+        "connectToBrowser": true,
+        "connectOptions": {
+            "defaultViewport": {
+                "width": 1366,
+                "height": 768
             }
         },
-        timeout: 60000
+        "timeout": 60000
     }   
     
     // myTest.js

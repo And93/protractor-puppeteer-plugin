@@ -1,7 +1,6 @@
 # Protractor-puppeteer plugin
 
-(!) This plugin can be used only for local run.
-Running autotests in Docker, remote aren't supported yet. (TODO)
+This plugin highly recommended to use for local run.
 
 ## Dependencies:
 ```
@@ -12,8 +11,8 @@ Running autotests in Docker, remote aren't supported yet. (TODO)
 
 ## Requirements:
 - Chrome >=76
-- npm >=5.7.1
-- node >=8.9.1
+- npm >=5
+- node >=8
 
 ## How to add this plugin to protractor:
 
@@ -40,20 +39,13 @@ Running autotests in Docker, remote aren't supported yet. (TODO)
                     slowMo?: number (Default: 0ms)
                 },
                 timeout?: number, (Default: 30000ms)
+                defaultArgs?: {
+                    headless?: boolean,
+                    args?: Array<string>,
+                    userDataDir?: string,
+                    devtools?: boolean
+                },
                 harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
-                capture?: {
-                    setRequestInterception: boolean, (Default: false)
-                    logsDir?: './path/to/artifatcs/dir/', (Default: './artifacts/network/')
-                    overrides?: {
-                        url?: string,
-                        method?: string,
-                        postData?: string,
-                        headers?: Object
-                    },
-                    requestfinished?: boolean, (Default: false)
-                    requestfailed?: boolean, (Default: false)
-                    response?: boolean (Default: false)
-                }
             }
         }
     ]
@@ -62,7 +54,7 @@ Running autotests in Docker, remote aren't supported yet. (TODO)
 
 #### What should 'configFile' contain?
 
-The `configFile` must be .json extension and contains the following properties.
+The `configFile` must be `.json` extension and contains the following properties.
 
 E.g.:
 ```
@@ -81,35 +73,25 @@ E.g.:
            slowMo?: number (Default: 0ms)
         },
         timeout?: number, (Default: 30000ms)
+        defaultArgs?: {
+            headless?: boolean,
+            args?: Array<string>,
+            userDataDir?: string,
+            devtools?: boolean
+        },
         harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
-        capture?: {
-           setRequestInterception: boolean, (Default: false)
-           logsDir?: './path/to/artifatcs/dir/', (Default: './artifacts/network/')
-           overrides?: {
-               url?: string,
-               method?: string,
-               postData?: string,
-               headers?: Object
-           },
-           requestfinished?: boolean, (Default: false)
-           requestfailed?: boolean, (Default: false)
-           response?: boolean (Default: false)
-        }
     }
 ```
 
 #### Documentation
 * `connectOptions`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions
 * `timeout`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout
-* `capture`:
-    * `request`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-request
-    * `response`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-response
-
+* `defaultArgs`: https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteerdefaultargsoptions
 
 ## How to use:
 
 1. If you would like to connect to browser by yourself
-or you would like to use some of the functions which returns from 'class: Puppeteer',
+or you would like to use some of the functions which return from 'class: Puppeteer',
 you should use `puppeteer` property:
 
     ```
@@ -127,8 +109,8 @@ you should use `puppeteer` property:
     More information about this class you can find here:
     * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer
     
-2. If Puppeteer was connected by protractor-puppeteer-plugin, you should use `channel` property.
-The `channel` property provides to use all features of Puppeteer after merging with Protractor.
+2. If Puppeteer was connected by `protractor-puppeteer-plugin`, you should use `cdp` property.
+The `cdp` property provides to use all features of Puppeteer after merging with Protractor.
 
     ```
         // myTest.js
@@ -137,13 +119,10 @@ The `channel` property provides to use all features of Puppeteer after merging w
    
         ...
         
-        browser.channel.target
-        
-        browser.channel.client
-        
-        browser.channel.page
-    
-        browser.channel.browser
+        browser.cdp.target
+        browser.cdp.client
+        browser.cdp.page
+        browser.cdp.browser
     ```
     More information about this class you can find here:
     * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer
@@ -153,21 +132,43 @@ The `channel` property provides to use all features of Puppeteer after merging w
     * class: **Browser**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser
 
 3. For saving har files (with all calls from network) use:
-    ```
+```
    await browser.har.start();
    // test actions
    await browser.har.stop();
-   ```
+```
+
+#### How to use this plugin if tests run in Docker:
+For this you have to pass the following arguments:
+* `--headless`
+* `--remote-debugging-address=0.0.0.0` - with ip address you want.
+* `--remote-debugging-port=9222` - with port address you want
+
+(!) But for parallel mode, you have to manage the ports by yourself.
+
+```
+    capabilities: {
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+            args: [
+                '--headless',
+                '--remote-debugging-address=0.0.0.0',
+                '--remote-debugging-port=9222',
+            ],
+        },
+    },
+```
+
+More arguments you can find here: 
+* List of Chromium Command Line Switches: https://peter.sh/experiments/chromium-command-line-switches/
 
 #### Example:
 ```
     // protractor.conf.js
-    plugins: [
-        {
+    plugins: [{
             package: 'protractor-puppeteer-plugin',
             configFile: './path/to/puppeteer.conf.json'
-        }
-    ]
+    }]
 
     // puppeteer.conf.json
     {
@@ -178,11 +179,7 @@ The `channel` property provides to use all features of Puppeteer after merging w
                 height: 768,
             }
         },
-        timeout: 60000,
-        capture: {
-            setRequestInterception: true,
-            requestfailed: true
-        }
+        timeout: 60000
     }   
     
     // myTest.js
@@ -190,10 +187,10 @@ The `channel` property provides to use all features of Puppeteer after merging w
         it('Test name', async () => {
             await browser.get('https://angular.io/');
             await browser.$('.hero-background a[href="https://angular.io/cli"]').click();
-            await browser.channel.page.waitForNavigation({waitUntil: 'networkidle0'});
-            await browser.channel.page.waitForSelector('#start', {visible: true, hidden: false});
-            await browser.channel.page.goto('https://cli.angular.io/', {waitUntil: ['networkidle0', 'domcontentloaded']});
-            await browser.channel.page.waitForResponse('https://cli.angular.io/favicon.ico');
+            await browser.cdp.page.waitForNavigation({waitUntil: 'networkidle0'});
+            await browser.cdp.page.waitForSelector('#start', {visible: true, hidden: false});
+            await browser.cdp.page.goto('https://cli.angular.io/', {waitUntil: ['networkidle0', 'domcontentloaded']});
+            await browser.cdp.page.waitForResponse('https://cli.angular.io/favicon.ico');
             const getStartedBrn = browser.$('[href="https://angular.io/cli"]');
             await browser.wait(ExpectedConditions.visibilityOf(getStartedBrn));
             await getStartedBrn.click();

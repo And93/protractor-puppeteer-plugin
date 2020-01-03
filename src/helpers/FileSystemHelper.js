@@ -13,7 +13,7 @@ class FileSystemHelper {
 
     makeDir() {
         if (!existsSync(this.getDirPath())) {
-            return mkdirSync(this.getDirPath());
+            return mkdirSync(this.getDirPath(), {recursive: true});
         }
     }
 

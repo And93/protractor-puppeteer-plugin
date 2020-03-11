@@ -1,18 +1,16 @@
 # Protractor-puppeteer plugin
 
-This plugin highly recommended to use for local run.
-
 ## Dependencies:
 ```
     "@types/puppeteer": "2.0.0"
-    "chrome-har": "0.11.4",
-    "puppeteer-core": "2.0.0"
+    "chrome-har": "0.11.7",
+    "puppeteer-core": "2.1.1"
 ```
 
 ## Requirements:
-- Chrome >=76
-- npm >=5
-- node >=8
+- Chrome >=80
+- npm >=6
+- node >=10
 
 ## How to add this plugin to protractor:
 
@@ -132,35 +130,11 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
     * class: **Browser**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser
 
 3. For saving har files (with all calls from network) use:
-```
-   await browser.har.start();
-   // test actions
-   await browser.har.stop();
-```
-
-#### How to use this plugin if tests run in Docker:
-For this you have to pass the following arguments:
-* `--headless`
-* `--remote-debugging-address=0.0.0.0` - with ip address you want.
-* `--remote-debugging-port=9222` - with port address you want
-
-(!) But for parallel mode, you have to manage the ports by yourself.
-
-```
-    capabilities: {
-        browserName: 'chrome',
-        'goog:chromeOptions': {
-            args: [
-                '--headless',
-                '--remote-debugging-address=0.0.0.0',
-                '--remote-debugging-port=9222',
-            ],
-        },
-    },
-```
-
-More arguments you can find here: 
-* List of Chromium Command Line Switches: https://peter.sh/experiments/chromium-command-line-switches/
+    ```
+        await browser.har.start();
+        // test actions
+        await browser.har.stop();
+    ```
 
 #### Example:
 ```
@@ -199,6 +173,35 @@ More arguments you can find here:
         });
     });
 ```
+
+#### How to use this plugin if tests run in Docker: (TODO)
+
+Docker image
+Docker compose
+
+
+For this you have to pass the following arguments:
+* `--headless`
+* `--remote-debugging-address=0.0.0.0` - with ip address you want.
+* `--remote-debugging-port=9222` - with port address you want
+
+(!) But for parallel mode, you have to manage the ports by yourself.
+
+```
+    capabilities: {
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+            args: [
+                '--headless',
+                '--remote-debugging-address=0.0.0.0',
+                '--remote-debugging-port=9222',
+            ],
+        },
+    },
+```
+
+More arguments you can find here: 
+* List of Chromium Command Line Switches: https://peter.sh/experiments/chromium-command-line-switches/
 
 ### Documentation:
 Protractor:

@@ -11,6 +11,7 @@ module.exports = async function () {
     const {capabilities, plugins} = await protractor.browser.getProcessedConfig();
 
     if (capabilities.browserName !== 'chrome') {
+        logHelper.generate('Protractor and Puppeteer', 'Supported only Chrome browser.').print();
         return;
     }
 
@@ -38,6 +39,8 @@ module.exports = async function () {
         if (connectToBrowser) {
             const _capabilities = await protractor.browser.getCapabilities();
             const {debuggerAddress} = _capabilities.get('goog:chromeOptions');
+
+            logHelper.generate('Protractor and Puppeteer', `debuggerAddress: ${debuggerAddress}`).print();
 
             if (defaultArgs) {
                 puppeteer.defaultArgs(debuggerAddress);

@@ -174,35 +174,6 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
     });
 ```
 
-#### How to use this plugin if tests run in Docker: (TODO)
-
-Docker image
-Docker compose
-
-
-For this you have to pass the following arguments:
-* `--headless`
-* `--remote-debugging-address=0.0.0.0` - with ip address you want.
-* `--remote-debugging-port=9222` - with port address you want
-
-(!) But for parallel mode, you have to manage the ports by yourself.
-
-```
-    capabilities: {
-        browserName: 'chrome',
-        'goog:chromeOptions': {
-            args: [
-                '--headless',
-                '--remote-debugging-address=0.0.0.0',
-                '--remote-debugging-port=9222',
-            ],
-        },
-    },
-```
-
-More arguments you can find here: 
-* List of Chromium Command Line Switches: https://peter.sh/experiments/chromium-command-line-switches/
-
 ### Documentation:
 Protractor:
 * https://www.protractortest.org

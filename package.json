@@ -17,16 +17,14 @@
     "har",
     "devtools"
   ],
-  "author": "Andrei Dzeichyk (andreidei4ik@gmail.com)",
+  "author": "Andrei Dzeichyk <andreidei4ik@gmail.com>",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/And93/protractor-puppeteer-plugin/issues"
-  },
+  "bugs": "https://github.com/And93/protractor-puppeteer-plugin/issues",
   "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
   "dependencies": {
-    "@types/puppeteer-core": "2.0.0",
-    "chrome-har": "0.11.7",
-    "puppeteer-core": "2.1.1"
+    "@types/puppeteer-core": "^2.0.0",
+    "chrome-har": "^0.11.7",
+    "puppeteer-core": "^2.1.1"
   },
   "devDependencies": {
     "protractor": "^5.4.3"

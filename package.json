@@ -18,7 +18,7 @@
     "devtools"
   ],
   "author": "Andrei Dzeichyk <andreidei4ik@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": "https://github.com/And93/protractor-puppeteer-plugin/issues",
   "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
   "dependencies": {

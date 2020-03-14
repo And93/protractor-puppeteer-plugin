@@ -1,16 +1,13 @@
 # Protractor-puppeteer plugin
 
-## Dependencies:
-```
-    "@types/puppeteer": "2.0.0"
-    "chrome-har": "0.11.7",
-    "puppeteer-core": "2.1.1"
-```
+The main goal of this plugin is to enable the use of two tools in autotests written on Protractor.
+
+**Chrome only supported.**
 
 ## Requirements:
-- Chrome >=80
-- npm >=6
-- node >=10
+- [Chrome >=80](https://www.google.com/intl/ru/chrome/)
+- [node >=10](https://nodejs.org/en/)
+- [protractor >=5](https://www.protractortest.org/)
 
 ## How to add this plugin to protractor:
 
@@ -48,7 +45,7 @@
         }
     ]
 ```
-(!) Note: The `configFile` property takes precedence over the `configOptions` property.
+**(!) Note:** The `configFile` property takes precedence over the `configOptions` property.
 
 #### What should 'configFile' contain?
 
@@ -82,9 +79,9 @@ E.g.:
 ```
 
 #### Documentation
-* `connectOptions`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions
-* `timeout`: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout
-* `defaultArgs`: https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteerdefaultargsoptions
+* [`connectOptions`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions)
+* [`timeout`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout)
+* [`defaultArgs`](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteerdefaultargsoptions)
 
 ## How to use:
 
@@ -105,7 +102,7 @@ you should use `puppeteer` property:
         etc.
     ``` 
     More information about this class you can find here:
-    * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer
+    * [class: **Puppeteer**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
     
 2. If Puppeteer was connected by `protractor-puppeteer-plugin`, you should use `cdp` property.
 The `cdp` property provides to use all features of Puppeteer after merging with Protractor.
@@ -123,11 +120,11 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
         browser.cdp.browser
     ```
     More information about this class you can find here:
-    * class: **Puppeteer**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer
-    * class: **Target**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-target
-    * class: **CDPSession**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-cdpsession
-    * class: **Page**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-page
-    * class: **Browser**: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser
+    * [class: **Puppeteer**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
+    * [class: **Target**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-target)
+    * [class: **CDPSession**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-cdpsession)
+    * [class: **Page**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-page)
+    * [class: **Browser**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser)
 
 3. For saving har files (with all calls from network) use:
     ```
@@ -135,6 +132,8 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
         // test actions
         await browser.har.stop();
     ```
+
+Saved files can then be read by Chrome.
 
 #### Example:
 ```
@@ -165,7 +164,9 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
             await browser.cdp.page.waitForSelector('#start', {visible: true, hidden: false});
             await browser.cdp.page.goto('https://cli.angular.io/', {waitUntil: ['networkidle0', 'domcontentloaded']});
             await browser.cdp.page.waitForResponse('https://cli.angular.io/favicon.ico');
+            
             const getStartedBrn = browser.$('[href="https://angular.io/cli"]');
+            
             await browser.wait(ExpectedConditions.visibilityOf(getStartedBrn));
             await getStartedBrn.click();
 
@@ -173,6 +174,37 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
         });
     });
 ```
+
+### How to use in Docker
+
+1. If you would like to use autotests within the same container with selenium-standalone/chrome, you don't need to do anything.
+
+2. If you would like to use autotest and selenium-standalone/chrome in different containers,
+you have to manage a port for Chrome debug protocol.
+Since you won’t be able to know on which port the Chrome debugger is available, and based on Chrome’s policy is prohibited connect to Chrome from the outside.
+
+To do this, you need to pass the following arguments:
+* `--headless`
+* `--remote-debugging-address=0.0.0.0`
+* `--remote-debugging-port=9222` - with port address you want
+
+**(!)** But for parallel mode, you have to manage the ports by yourself.
+
+```
+    capabilities: {
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+            args: [
+                '--headless',
+                '--remote-debugging-address=0.0.0.0',
+                '--remote-debugging-port=9222'
+            ]
+        }
+    }
+```
+
+More arguments you can find here: 
+* [List of Chromium Command Line Switches](https://peter.sh/experiments/chromium-command-line-switches/)
 
 ### Documentation:
 Protractor:
@@ -189,6 +221,3 @@ Puppeteer:
 
 Chrome DevTools Protocol:
 * https://chromedevtools.github.io/devtools-protocol/
-
-### Contacts:
-andreidei4ik@gmail.com

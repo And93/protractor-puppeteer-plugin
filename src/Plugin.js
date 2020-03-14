@@ -11,8 +11,7 @@ module.exports = async function () {
     const {capabilities, plugins} = await protractor.browser.getProcessedConfig();
 
     if (capabilities.browserName !== 'chrome') {
-        logHelper.generate('Protractor and Puppeteer', 'Supported only Chrome browser.').print();
-        return;
+        throw logHelper.generate('Protractor and Puppeteer', 'Supported only Chrome browser.').print();
     }
 
     for (const plugin of plugins) {

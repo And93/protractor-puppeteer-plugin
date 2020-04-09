@@ -42,7 +42,7 @@ module.exports = async function () {
             logHelper.generate('Protractor and Puppeteer', `debuggerAddress: ${debuggerAddress}`).print();
 
             if (defaultArgs) {
-                puppeteer.defaultArgs(debuggerAddress);
+                puppeteer.defaultArgs(defaultArgs);
             }
 
             const browser = await puppeteer.connect({

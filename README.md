@@ -136,7 +136,7 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
     await browser.har.stop();
     ```
 
-Saved files can be read by Chrome.
+    Saved files can be read by Chrome.
 
 4. If browser.restart() was executed, you need to connect Puppeteer one more time:
     ```

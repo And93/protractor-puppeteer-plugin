@@ -53,7 +53,9 @@ class HarHelper {
         this._fileSystemHelper.makeDir();
         this._fileSystemHelper.writeFileStream(JSON.stringify(_har), name);
 
-        logHelper.generate('Protractor and Puppeteer', '"Har" capture completed.').print();
+        logHelper
+            .generate('Protractor and Puppeteer', `"Har" capture completed. File name: ${name}`)
+            .print();
 
         return Promise.resolve();
     }

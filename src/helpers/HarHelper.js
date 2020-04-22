@@ -43,15 +43,13 @@ class HarHelper {
     }
 
     stop() {
-        const _har = har.harFromMessages(events);
-        const name = `${new Date().valueOf()}_PID_${process.pid}_chrome_browser_log.har`;
+        const harFromMessages = har.harFromMessages(events);
+        const name = `${new Date().valueOf()}_PID_${process.pid}_chrome_browser_har_log.har`;
 
-        observe.forEach(method => {
-            this._client.removeAllListeners(method);
-        });
+        observe.forEach(method => this._client.removeAllListeners(method));
 
         this._fileSystemHelper.makeDir();
-        this._fileSystemHelper.writeFileStream(JSON.stringify(_har), name);
+        this._fileSystemHelper.writeFileStream(JSON.stringify(harFromMessages), name);
 
         logHelper
             .generate('Protractor and Puppeteer', `"Har" capture completed. File name: ${name}`)

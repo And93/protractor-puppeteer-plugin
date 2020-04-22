@@ -1,6 +1,6 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Plugin for merging puppeteer with protractor",
   "main": "index.js",
   "repository": {
@@ -8,9 +8,12 @@
     "url": "git+https://github.com/And93/protractor-puppeteer-plugin.git"
   },
   "keywords": [
-    "automation",
-    "puppeteer",
     "protractor",
+    "puppeteer",
+    "selenium",
+    "webdriver",
+    "webdriverjs",
+    "selenium-webdriver",
     "chrome devtools protocol",
     "chrome",
     "cdp",
@@ -24,10 +27,10 @@
   "dependencies": {
     "@types/puppeteer-core": "^2.0.0",
     "chrome-har": "^0.11.7",
-    "puppeteer-core": "^2.1.1"
+    "puppeteer-core": "^3.0.0"
   },
   "devDependencies": {
-    "protractor": "^5.4.3"
+    "protractor": "^5.4.4"
   },
   "peerDependencies": {
     "protractor": "^5.0.0"

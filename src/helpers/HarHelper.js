@@ -1,6 +1,7 @@
 'use strict';
 const har = require('chrome-har');
 const {FileSystemHelper} = require('./FileSystemHelper');
+const logHelper = require('./LogHelper');
 
 const observe = [
     'Page.loadEventFired',
@@ -27,24 +28,32 @@ class HarHelper {
     }
 
     async start() {
-        const client = await this._page.target().createCDPSession();
+        this._client = await this._page.target().createCDPSession();
 
-        await client.send('Page.enable');
-        await client.send('Network.enable');
+        await this._client.send('Page.enable');
+        await this._client.send('Network.enable');
 
         observe.forEach(method => {
-            client.on(method, params => {
+            this._client.on(method, params => {
                 events.push({method, params});
             });
         });
+
+        logHelper.generate('Protractor and Puppeteer', '"Har" capture began.').print();
     }
 
     stop() {
         const _har = har.harFromMessages(events);
         const name = `${new Date().valueOf()}_PID_${process.pid}_chrome_browser_log.har`;
 
+        observe.forEach(method => {
+            this._client.removeAllListeners(method);
+        });
+
         this._fileSystemHelper.makeDir();
         this._fileSystemHelper.writeFileStream(JSON.stringify(_har), name);
+
+        logHelper.generate('Protractor and Puppeteer', '"Har" capture completed.').print();
 
         return Promise.resolve();
     }

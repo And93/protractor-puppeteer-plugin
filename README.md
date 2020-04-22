@@ -92,17 +92,17 @@ or you would like to use some functions which return from 'class: Puppeteer',
 you should use `puppeteer` property:
 
     ```
-        // myTest.js
-        const {browser} = require('protractor');
-        
-        browser.puppeteer.launch([options]);
-        browser.puppeteer.connect(options);
-        browser.puppeteer.createBrowserFetcher([options]);
-        browser.puppeteer.defaultArgs([options]);
-        
-        const iDevices = browser.puppeteer.devices['iDevices'];
+    // myTest.js
+    const {browser} = require('protractor');
     
-        etc.
+    browser.puppeteer.launch([options]);
+    browser.puppeteer.connect(options);
+    browser.puppeteer.createBrowserFetcher([options]);
+    browser.puppeteer.defaultArgs([options]);
+    
+    const iDevices = browser.puppeteer.devices['iDevices'];
+    
+    etc.
     ``` 
     More information about this class you can find here:
     * [`class: Puppeteer`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
@@ -111,16 +111,16 @@ you should use `puppeteer` property:
 The `cdp` property provides to use all features of Puppeteer after merging with Protractor.
 
     ```
-        // myTest.js
-        
-        browser.puppeteer.devices
+    // myTest.js
+    
+    browser.puppeteer.devices
    
-        ...
-        
-        browser.cdp.target
-        browser.cdp.client
-        browser.cdp.page
-        browser.cdp.browser
+    ...
+    
+    browser.cdp.target
+    browser.cdp.client
+    browser.cdp.page
+    browser.cdp.browser
     ```
     More information about this class you can find here:
     * [`class: Puppeteer`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
@@ -131,9 +131,9 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
 
 3. For saving har files (with all calls from network) use:
     ```    
-        await browser.har.start();
-        // test actions
-        await browser.har.stop();
+    await browser.har.start();
+    // test actions
+    await browser.har.stop();
     ```
 
 Saved files can be read by Chrome.

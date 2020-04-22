@@ -5,9 +5,11 @@ The main goal of this plugin is to enable the use of two tools in autotests writ
 **Chrome only supported.**
 
 ## Requirements:
-- [Chrome >=80](https://www.google.com/intl/ru/chrome/)
-- [node >=10](https://nodejs.org/en/)
-- [protractor >=5](https://www.protractortest.org/)
+
+| Protractor-puppeteer plugin | Protractor | Puppeteer | Chrome | Node |
+|----------------------------|------------|-----------|--------|------|
+| ^1.0.0 | ^5.0.0 | ^2.1.0| ^80 | ^10 |
+| ^2.0.0 | ^5.0.0 | ^3.0.0| ^81 | ^10 |
 
 ## How to add this plugin to protractor:
 
@@ -85,12 +87,13 @@ E.g.:
 
 ## How to use:
 
-1. If you would like to connect to browser by yourself
-or you would like to use some of the functions which return from 'class: Puppeteer',
+1. If you would like to connect to browser by yourself,
+or you would like to use some functions which return from 'class: Puppeteer',
 you should use `puppeteer` property:
 
     ```
         // myTest.js
+        const {browser} = require('protractor');
         
         browser.puppeteer.launch([options]);
         browser.puppeteer.connect(options);
@@ -102,7 +105,7 @@ you should use `puppeteer` property:
         etc.
     ``` 
     More information about this class you can find here:
-    * [class: **Puppeteer**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
+    * [`class: Puppeteer`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
     
 2. If Puppeteer was connected by `protractor-puppeteer-plugin`, you should use `cdp` property.
 The `cdp` property provides to use all features of Puppeteer after merging with Protractor.
@@ -120,20 +123,29 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
         browser.cdp.browser
     ```
     More information about this class you can find here:
-    * [class: **Puppeteer**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
-    * [class: **Target**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-target)
-    * [class: **CDPSession**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-cdpsession)
-    * [class: **Page**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-page)
-    * [class: **Browser**](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser)
+    * [`class: Puppeteer`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
+    * [`class: Target`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-target)
+    * [`class: CDPSession`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-cdpsession)
+    * [`class: Page`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-page)
+    * [`class: Browser`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser)
 
 3. For saving har files (with all calls from network) use:
-    ```
+    ```    
         await browser.har.start();
         // test actions
         await browser.har.stop();
     ```
 
-Saved files can then be read by Chrome.
+Saved files can be read by Chrome.
+
+4. If browser.restart() was executed, you need to connect Puppeteer one more time:
+    ```
+   const {browser} = require('protractor');
+   const {setup} = require('protractor-puppeteer-plugin');
+   
+   await browser.restart();
+   await setup();
+   ```
 
 #### Example:
 ```
@@ -156,8 +168,10 @@ Saved files can then be read by Chrome.
     }   
     
     // myTest.js
-    describe('Suite name', () => {
-        it('Test name', async () => {
+    const {browser} = require('protractor');
+    
+    describe('Example suite', () => {
+        it('Simple test', async () => {
             await browser.get('https://angular.io/');
             await browser.$('.hero-background a[href="https://angular.io/cli"]').click();
             await browser.cdp.page.waitForNavigation({waitUntil: 'networkidle0'});
@@ -171,6 +185,25 @@ Saved files can then be read by Chrome.
             await getStartedBrn.click();
 
             expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(true, 'The "Get started" page was not opened');
+        });
+
+        it('Mocking response', async () => {
+            await browser.cdp.page.setRequestInterception(true);
+    
+            browser.cdp.page.on('request', async request => {
+                if (request.url().includes('photos')) {
+                    await request.respond({
+                        body: '[{title: "Hello World!!!"}]'
+                    })
+                } else {
+                    await request.continue();
+                }
+            });
+    
+            await browser.cdp.page.goto('http://jsonplaceholder.typicode.com/photos');
+            // or
+            // await browser.waitForAngularEnabled(false);
+            // await browser.get('http://jsonplaceholder.typicode.com/photos');
         });
     });
 ```

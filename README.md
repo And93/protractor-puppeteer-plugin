@@ -6,10 +6,10 @@ The main goal of this plugin is to enable the use of two tools in autotests writ
 
 ## Requirements:
 
-| Protractor-puppeteer plugin | Protractor | Puppeteer | Chrome | Node |
-|----------------------------|------------|-----------|--------|------|
-| ^1.0.0 | ^5.0.0 | ^2.1.0| ^80 | ^10 |
-| ^2.0.0 | ^5.0.0 | ^3.0.0| ^81 | ^10 |
+| Protractor-puppeteer plugin | Protractor | Puppeteer | NodeJS |
+|----------------------------|------------|-----------|------|
+| ^1.0.0                | ^5.0.0 | ^2.1.0| ^10 |
+| ^2.0.0 (`Current`)    | ^5.0.0 | ^3.0.0| ^10 |
 
 ## How to add this plugin to protractor:
 
@@ -43,6 +43,10 @@ The main goal of this plugin is to enable the use of two tools in autotests writ
                     devtools?: boolean
                 },
                 harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
+                selenoid?: {
+                    host: string, (E.g.: 'selenoid.example.com' or 'localhost')
+                    port?: number (Default: 4444)
+                }
             }
         }
     ]
@@ -77,6 +81,10 @@ E.g.:
             "devtools"?: boolean
         },
         "harDir"?: "./path/to/artifatcs/dir/", (Default: "./artifacts/har/")
+        "selenoid"?: {
+            "host": string, (E.g.: "selenoid.example.com" or "localhost")
+            "port"?: number (Default: 4444)
+        }
     }
 ```
 

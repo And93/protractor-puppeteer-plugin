@@ -25,4 +25,4 @@ class FileSystemHelper {
     }
 }
 
-module.exports = {FileSystemHelper};
+module.exports = FileSystemHelper;

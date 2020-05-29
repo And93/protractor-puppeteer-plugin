@@ -1,6 +1,6 @@
 'use strict';
 const har = require('chrome-har');
-const {FileSystemHelper} = require('./FileSystemHelper');
+const FileSystemHelper = require('./FileSystemHelper');
 const logHelper = require('./LogHelper');
 
 const observe = [
@@ -59,4 +59,4 @@ class HarHelper {
     }
 }
 
-module.exports = {HarHelper};
+module.exports = HarHelper;

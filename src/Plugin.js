@@ -65,7 +65,7 @@ module.exports = async function () {
                 browserURL = `http://${debuggerAddress}`;
 
                 logHelper
-                    .generate('Protractor and Puppeteer', `Connecting to Chrome via: debuggerAddress: ${debuggerAddress}`)
+                    .generate('Protractor and Puppeteer', `Connecting to Chrome via: browserURL: ${browserURL}`)
                     .print();
             }
 
@@ -84,6 +84,8 @@ module.exports = async function () {
             if (timeout) {
                 page.setDefaultTimeout(timeout);
             }
+
+            logHelper.generate('Protractor and Puppeteer', 'Puppeteer was connected to Protractor.').print();
 
             puppeteerExtendObj = {
                 puppeteer,

@@ -44,7 +44,7 @@ The main goal of this plugin is to enable the use of two tools in autotests writ
                 },
                 harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
                 selenoid?: {
-                    host: string, (E.g.: 'selenoid.example.com')
+                    host: string, (E.g.: 'selenoid.example.com' or 'localhost')
                     port?: number (Default: 4444)
                 }
             }
@@ -82,7 +82,7 @@ E.g.:
         },
         "harDir"?: "./path/to/artifatcs/dir/", (Default: "./artifacts/har/")
         "selenoid"?: {
-            "host": string, (E.g.: "selenoid.example.com")
+            "host": string, (E.g.: "selenoid.example.com" or "localhost")
             "port"?: number (Default: 4444)
         }
     }

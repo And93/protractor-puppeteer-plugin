@@ -3,7 +3,7 @@
 const {resolve} = require('path');
 const protractor = require('protractor');
 const puppeteer = require('puppeteer-core');
-const {HarHelper} = require('./helpers/HarHelper');
+const HarHelper = require('./helpers/HarHelper');
 const logHelper = require('./helpers/LogHelper');
 
 module.exports = async function () {
@@ -30,23 +30,48 @@ module.exports = async function () {
             connectOptions,
             timeout,
             harDir,
-            defaultArgs
+            defaultArgs,
+            selenoid
         } = configFile ? require(resolve(configFile)) : configOptions;
 
         let puppeteerExtendObj = {puppeteer};
 
         if (connectToBrowser) {
-            const _capabilities = await protractor.browser.getCapabilities();
-            const {debuggerAddress} = _capabilities.get('goog:chromeOptions');
 
-            logHelper.generate('Protractor and Puppeteer', `debuggerAddress: ${debuggerAddress}`).print();
+            // Chrome: http://${host}:${port}
+            let browserURL;
+
+            // Chrome: ws://${host}:${port}/devtools/browser/${sessionId}
+            // Selenoid: ws://${host}:${port}/devtools/${sessionId}
+            let browserWSEndpoint;
 
             if (defaultArgs) {
                 puppeteer.defaultArgs(defaultArgs);
             }
 
+            if (selenoid) {
+                const session = await protractor.browser.getSession();
+                const sessionId = await session.getId();
+
+                browserWSEndpoint = `ws://${selenoid.host}:${selenoid.port || 4444}/devtools/${sessionId}`;
+
+                logHelper
+                    .generate('Protractor and Puppeteer', `Connecting to Selenoid via: browserWSEndpoint: ${browserWSEndpoint}`)
+                    .print();
+            } else {
+                const _capabilities = await protractor.browser.getCapabilities();
+                const {debuggerAddress} = _capabilities.get('goog:chromeOptions');
+
+                browserURL = `http://${debuggerAddress}`;
+
+                logHelper
+                    .generate('Protractor and Puppeteer', `Connecting to Chrome via: browserURL: ${browserURL}`)
+                    .print();
+            }
+
             const browser = await puppeteer.connect({
-                browserURL: `http://${debuggerAddress}`,
+                browserURL,
+                browserWSEndpoint,
                 ...connectOptions
             });
 
@@ -59,6 +84,8 @@ module.exports = async function () {
             if (timeout) {
                 page.setDefaultTimeout(timeout);
             }
+
+            logHelper.generate('Protractor and Puppeteer', 'Puppeteer was connected to Protractor.').print();
 
             puppeteerExtendObj = {
                 puppeteer,

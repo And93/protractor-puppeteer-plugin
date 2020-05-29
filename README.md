@@ -82,7 +82,7 @@ E.g.:
         },
         "harDir"?: "./path/to/artifatcs/dir/", (Default: "./artifacts/har/")
         "selenoid"?: {
-            "host": string, (E.g.: 'selenoid.example.com')
+            "host": string, (E.g.: "selenoid.example.com")
             "port"?: number (Default: 4444)
         }
     }

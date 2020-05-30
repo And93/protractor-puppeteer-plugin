@@ -1,4 +1,5 @@
 'use strict';
+
 const har = require('chrome-har');
 const FileSystemHelper = require('./FileSystemHelper');
 const logHelper = require('./LogHelper');

@@ -1,29 +1,31 @@
-import * as pptr from 'puppeteer-core';
+/// <reference path="../protractor/built/browser.d.ts" />
+
+import * as puppeteer from 'puppeteer';
 
 declare module 'protractor-puppeteer-plugin' {
-    export function setup(): promise.Promise<void>;
+    export function setup(): Promise<void>;
 
     export const name: string;
 }
 
 declare module 'protractor' {
-    interface ProtractorBrowser {
-        puppeteer: pptr;
+    export class ProtractorBrowser {
+        public puppeteer: typeof puppeteer;
 
-        har: {
+        public har: {
             start(): Promise<void>,
 
             stop(): Promise<void>
         };
 
-        cdp: {
-            target: pptr.Target,
+        public cdp: {
+            target: puppeteer.Target,
 
-            client: pptr.CDPSession,
+            client: puppeteer.CDPSession,
 
-            page: pptr.Page,
+            page: puppeteer.Page,
 
-            browser: pptr.Browser
+            browser: puppeteer.Browser
         };
     }
 }

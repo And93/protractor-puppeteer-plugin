@@ -3,6 +3,7 @@
   "version": "2.1.0",
   "description": "Plugin for merging puppeteer with protractor",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/And93/protractor-puppeteer-plugin.git"

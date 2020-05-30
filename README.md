@@ -7,9 +7,9 @@ The main goal of this plugin is to enable the use of two tools in autotests writ
 ## Requirements:
 
 | Protractor-puppeteer plugin | Protractor | Puppeteer | NodeJS |
-|----------------------------|------------|-----------|------|
-| ^1.0.0                | ^5.0.0 | ^2.1.0| ^10 |
-| ^2.0.0 (`Current`)    | ^5.0.0 | ^3.0.0| ^10 |
+|-----------------------------|------------|-----------|--------|
+| ^1.0.0                      | ^5.0.0     | ^2.1.0    | ^10    |
+| ^2.0.0 (`Current`)          | ^5.0.0     | ^3.0.0    | ^10    |
 
 ## How to add this plugin to protractor:
 
@@ -53,7 +53,7 @@ The main goal of this plugin is to enable the use of two tools in autotests writ
 ```
 **(!) Note:** The `configFile` property takes precedence over the `configOptions` property.
 
-#### What should 'configFile' contain?
+### What should 'configFile' contain?
 
 The `configFile` must be `.json` extension and contains the following properties.
 
@@ -88,7 +88,7 @@ E.g.:
     }
 ```
 
-#### Documentation
+### Documentation
 * [`connectOptions`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions)
 * [`timeout`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout)
 * [`defaultArgs`](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteerdefaultargsoptions)
@@ -146,7 +146,7 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
 
     Saved files can be read by Chrome.
 
-4. If browser.restart() was executed, you need to connect Puppeteer one more time:
+4. If `browser.restart()` was executed, you need to connect Puppeteer one more time:
     ```
    const {browser} = require('protractor');
    const {setup} = require('protractor-puppeteer-plugin');
@@ -155,8 +155,10 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
    await setup();
    ```
 
-#### Example:
+### Example:
 ```
+    ============== JavaScript ==============
+    
     // protractor.conf.js
     plugins: [{
             package: 'protractor-puppeteer-plugin',
@@ -175,7 +177,7 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
         "timeout": 60000
     }   
     
-    // myTest.js
+    // awesome.test.js
     const {browser} = require('protractor');
     
     describe('Example suite', () => {
@@ -195,7 +197,7 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
             expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(true, 'The "Get started" page was not opened');
         });
 
-        it('Mocking response', async () => {
+        it('Mocking a response', async () => {
             await browser.cdp.page.setRequestInterception(true);
     
             browser.cdp.page.on('request', async request => {
@@ -214,15 +216,30 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
             // await browser.get('http://jsonplaceholder.typicode.com/photos');
         });
     });
+
+    ============== TypeScript ==============
+    
+    // awesome.test.ts
+    import {browser} from 'protractor';
+    import 'protractor-puppeteer-plugin'; // to have autocomplete
+
+    describe('Example suite', () => {
+        it('Simple test', async () => { 
+            browser.puppeteer. ---> autocomplete is available
+            browser.har. ---> autocomplete is available
+            browser.cdp. ---> autocomplete is available
+        });
+    });
 ```
 
-### How to use in Docker
+## How to use in Docker
 
 1. If you would like to use autotests within the same container with selenium-standalone/chrome, you don't need to do anything.
 
 2. If you would like to use autotest and selenium-standalone/chrome in different containers,
 you have to manage a port for Chrome debug protocol.
-Since you won’t be able to know on which port the Chrome debugger is available, and based on Chrome’s policy is prohibited connect to Chrome from the outside.
+Since you won’t be able to know on which port the Chrome debugger is available,
+and based on Chrome’s policy is prohibited connect to Chrome from the outside.
 
 To do this, you need to pass the following arguments:
 * `--headless`
@@ -247,7 +264,7 @@ To do this, you need to pass the following arguments:
 More arguments you can find here: 
 * [List of Chromium Command Line Switches](https://peter.sh/experiments/chromium-command-line-switches/)
 
-### Documentation:
+## Documentation:
 Protractor:
 * https://www.protractortest.org
 * https://github.com/angular/protractor

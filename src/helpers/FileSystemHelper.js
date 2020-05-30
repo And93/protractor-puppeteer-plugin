@@ -1,4 +1,5 @@
 'use strict';
+
 const {createWriteStream, mkdirSync, existsSync} = require('fs');
 const {join, resolve} = require('path');
 

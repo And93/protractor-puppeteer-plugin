@@ -13,7 +13,7 @@ The main goal of this plugin is to enable the use of two tools in autotests writ
 
 ## How to add this plugin to protractor:
 
-``` 
+```javascript
     // protractor.conf.js
     
     plugins: [
@@ -99,37 +99,37 @@ E.g.:
 or you would like to use some functions which return from 'class: Puppeteer',
 you should use `puppeteer` property:
 
-    ```
-    // myTest.js
-    const {browser} = require('protractor');
-    
-    browser.puppeteer.launch([options]);
-    browser.puppeteer.connect(options);
-    browser.puppeteer.createBrowserFetcher([options]);
-    browser.puppeteer.defaultArgs([options]);
-    
-    const iDevices = browser.puppeteer.devices['iDevices'];
-    
-    etc.
-    ``` 
+```javascript
+// myTest.js
+const {browser} = require('protractor');
+
+browser.puppeteer.launch([options]);
+browser.puppeteer.connect(options);
+browser.puppeteer.createBrowserFetcher([options]);
+browser.puppeteer.defaultArgs([options]);
+
+const iDevices = browser.puppeteer.devices['iDevices'];
+
+// etc.
+``` 
     More information about this class you can find here:
     * [`class: Puppeteer`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
     
 2. If Puppeteer was connected by `protractor-puppeteer-plugin`, you should use `cdp` property.
 The `cdp` property provides to use all features of Puppeteer after merging with Protractor.
 
-    ```
-    // myTest.js
-    
-    browser.puppeteer.devices
-   
-    ...
-    
-    browser.cdp.target
-    browser.cdp.client
-    browser.cdp.page
-    browser.cdp.browser
-    ```
+```javascript
+// myTest.js
+
+browser.puppeteer.devices
+
+// ...
+
+browser.cdp.target
+browser.cdp.client
+browser.cdp.page
+browser.cdp.browser
+```
     More information about this class you can find here:
     * [`class: Puppeteer`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-puppeteer)
     * [`class: Target`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-target)
@@ -138,11 +138,11 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
     * [`class: Browser`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#class-browser)
 
 3. For saving har files (with all calls from network) use:
-    ```    
-    await browser.har.start();
-    // test actions
-    await browser.har.stop();
-    ```
+```javascript    
+await browser.har.start();
+// test actions
+await browser.har.stop();
+```
 
     Saved files can be read by Chrome.
 
@@ -156,9 +156,7 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
    ```
 
 ### Example:
-```
-    ============== JavaScript ==============
-    
+```javascript    
     // protractor.conf.js
     plugins: [{
             package: 'protractor-puppeteer-plugin',
@@ -216,7 +214,8 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
             // await browser.get('http://jsonplaceholder.typicode.com/photos');
         });
     });
-
+```
+```typescript
     ============== TypeScript ==============
     
     // awesome.test.ts

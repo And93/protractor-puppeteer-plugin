@@ -1,5 +1,12 @@
 # Release notes
 
+## 2.3.0 - 2020-06-07
+
+### Added
+
+* Updated the dependencies to `puppeteer@3.3.0`
+* Updated README file
+
 ## 2.2.0 - 2020-05-30
 
 ### Added

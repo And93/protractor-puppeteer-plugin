@@ -58,7 +58,7 @@ plugins: [
 The `configFile` must be `.json` extension and contains the following properties.
 
 E.g.:
-```json
+```
 {
     "connectToBrowser"?: boolean, (Default: false)
     "connectOptions"?: {
@@ -119,6 +119,8 @@ you should use `puppeteer` property:
 The `cdp` property provides to use all features of Puppeteer after merging with Protractor.
 
     ```javascript
+    const {browser} = require('protractor');
+    
     browser.puppeteer.devices
     
     // ...
@@ -139,9 +141,11 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
 3. For saving `har` files (with all calls from network) use:
 
     ```javascript
-     await browser.har.start();
-     // test actions
-     await browser.har.stop();
+    const {browser} = require('protractor');
+     
+    await browser.har.start();
+    // test actions
+    await browser.har.stop();
     ```
 
     Saved files can be read by Chrome.
@@ -193,7 +197,10 @@ describe('Example suite', () => {
         await browser.wait(ExpectedConditions.visibilityOf(getStartedBrn));
         await getStartedBrn.click();
 
-        expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(true, 'The "Get started" page was not opened');
+        expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(
+            true,
+            'The "Get started" page was not opened'
+        );
     });
 
     it('Mocking a response', async () => {

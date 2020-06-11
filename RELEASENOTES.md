@@ -1,5 +1,12 @@
 # Release notes
 
+## 2.3.1 - 2020-06-11
+
+### Added
+
+* Added a verification whether a 'inline' plugin is present
+* Fixed the reference types of protractor 
+
 ## 2.3.0 - 2020-06-07
 
 ### Added

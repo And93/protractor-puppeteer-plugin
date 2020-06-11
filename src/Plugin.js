@@ -17,7 +17,8 @@ module.exports = async function () {
     for (const plugin of plugins) {
 
         if (
-            'package' in plugin && plugin.package !== 'protractor-puppeteer-plugin'
+            'inline' in plugin
+            || 'package' in plugin && plugin.package !== 'protractor-puppeteer-plugin'
             || 'path' in plugin && !plugin.path.includes('protractor-puppeteer-plugin')
         ) {
             continue;

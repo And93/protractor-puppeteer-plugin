@@ -1,4 +1,4 @@
-/// <reference path="../protractor/built/browser.d.ts" />
+/// <reference types="protractor" />
 
 import * as puppeteer from 'puppeteer';
 

@@ -1,5 +1,12 @@
 # Release notes
 
+## 3.0.0 - 2020-06-23
+
+### Added
+
+* Updated the dependencies to `puppeteer@4.0.0`
+    > (!) Puppeteer has breaking changes [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v4.0.0)
+
 ## 2.3.1 - 2020-06-11
 
 ### Added
@@ -11,7 +18,7 @@
 
 ### Added
 
-* Updated the dependencies to `puppeteer@3.3.0`
+* Updated the dependencies to `puppeteer@3.3.0` [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v3.3.0)
 * Updated README file
 
 ## 2.2.0 - 2020-05-30
@@ -30,7 +37,7 @@
 
 ### Added
 
-* Updated to `puppeteer@3`
+* Updated to `puppeteer@3.0.0` [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v3.0.0)
 
 ## 1.0.1 - 2020-04-22
 

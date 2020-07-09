@@ -10,7 +10,8 @@ The main goal of this plugin is to enable the use of two tools in autotests writ
 |-----------------------------|------------|-----------|--------|
 | ^1.0.0                      | ^5.0.0     | ^2.1.0    | ^10    |
 | ^2.0.0                      | ^5.0.0     | ^3.0.0    | ^10    |
-| ^3.0.0 (`Current`)          | ^5.0.0     | ^4.0.0    | ^10    |
+| ^3.0.0                      | ^5.0.0     | ^4.0.0    | ^10    |
+| ^4.0.0 (`Current`)          | ^5.0.0     | ^5.0.0    | ^10    |
 
 ## How to add this plugin to protractor:
 

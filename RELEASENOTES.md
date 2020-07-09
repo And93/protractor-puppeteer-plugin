@@ -1,5 +1,12 @@
 # Release notes
 
+## 4.0.0 - 2020-07-09
+
+### Added
+
+* Updated the dependencies to `puppeteer@5.0.0`
+    > (!) Puppeteer has breaking changes [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v5.0.0)
+
 ## 3.0.0 - 2020-06-23
 
 ### Added

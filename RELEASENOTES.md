@@ -1,5 +1,12 @@
 # Release notes
 
+## 5.0.0 - 2020-month-day
+
+### Added
+
+* Added API to work with Lighthouse
+* Refactoring
+
 ## 4.0.0 - 2020-07-09
 
 ### Added

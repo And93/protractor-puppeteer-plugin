@@ -1,9 +1,10 @@
 'use strict';
 
 const har = require('chrome-har');
-const FileSystem = require('./helpers/fileSystem');
-const {logger: loggerFn} = require('./helpers/logger');
 
+const FileSystem = require('./helpers/fileSystem');
+
+const {logger: loggerFn} = require('./helpers/logger');
 const logger = loggerFn('Protractor and Puppeteer');
 
 const observe = [
@@ -38,13 +39,13 @@ class HarHelper {
      * @return {Promise<void>}
      */
     async start() {
-        this._client = await this.page.target().createCDPSession();
+        this.client = await this.page.target().createCDPSession();
 
-        await this._client.send('Page.enable');
-        await this._client.send('Network.enable');
+        await this.client.send('Page.enable');
+        await this.client.send('Network.enable');
 
         observe.forEach(method => {
-            this._client.on(method, params => {
+            this.client.on(method, params => {
                 events.push({method, params});
             });
         });
@@ -59,7 +60,7 @@ class HarHelper {
         const harFromMessages = har.harFromMessages(events);
         const name = `${new Date().valueOf()}_PID_${process.pid}_chrome_browser_har_log.har`;
 
-        observe.forEach(method => this._client.removeAllListeners(method));
+        observe.forEach(method => this.client.removeAllListeners(method));
 
         this.fileSystem.makeDir();
         this.fileSystem.writeFileStream(JSON.stringify(harFromMessages), name);

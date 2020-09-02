@@ -52,6 +52,7 @@ plugins: [
                 port?: number (Default: 4444)
             },
             lighthouse?: {
+                enable?: boolean, (Default: false)
                 flags?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
                                                 Default: {port: (!) Determined automatically, logLevel: 'info', output: ['json', 'html']}
                                                 (!) It is not recommended to change the port.
@@ -99,13 +100,14 @@ E.g.:
         "port"?: number (Default: 4444)
     },
     "lighthouse"?: {
+        "enable"?: boolean, (Default: false)
         "flags"?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
                                         Default: {"port": (!) Determined automatically, "logLevel": "info", "output": ["json", "html"]}
                                         (!) It is not recommended to change the port.
         "config"?: {[key: string]: any}, See documentation: https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md
                                         and types: https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16
                                         Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
-        "reportsDir"?: string (Default: './artifacts/lighthouse/')
+        "reportsDir"?: string (Default: "./artifacts/lighthouse/")
     }
 }
 ```
@@ -212,7 +214,10 @@ plugins: [{
             "height": 768
         }
     },
-    "timeout": 60000
+    "timeout": 60000,
+    "lighthouse": {
+        "enable": true
+    }
 }   
 
 // awesome.test.js
@@ -258,7 +263,7 @@ describe('Example suite', () => {
     });
 
     it('Lighthouse example', async () => {
-        await browser.lighthouse('http://jsonplaceholder.typicode.com');
+        await browser.lighthouse('https://angular.io/');
         // a report will available within './artifacts/lighthouse/' dirrectory. Default reports: html; json.
     });
 });
@@ -266,6 +271,17 @@ describe('Example suite', () => {
 
 ```typescript
 // ============== TypeScript ==============
+// protractor.conf.ts
+import {Config} from 'protractor';
+import 'protractor-puppeteer-plugin';
+
+export const config: Config = {
+    // ...
+    plugins: [{
+        configFile: // ---> autocomplete is available
+        configOptions: // ---> autocomplete is available
+    }],
+}
 
 // awesome.test.ts
 import {browser} from 'protractor';
@@ -276,7 +292,7 @@ describe('Example suite', () => {
         browser.puppeteer. // ---> autocomplete is available
         browser.har. // ---> autocomplete is available
         browser.cdp. // ---> autocomplete is available
-        browser.lighthouse() // ---> autocomplete is available for params
+        browser.lighthouse(params); // ---> autocomplete is available for params
     });
 });
 ```

@@ -72,8 +72,8 @@ module.exports = async function () {
             });
         }
 
-        if (lighthouseConfig) {
-            const {lighthouse} = new Lighthouse(lighthouseConfig, browserURL || browserWSEndpoint);
+        if (lighthouseConfig && 'enabled' in lighthouseConfig) {
+            const {lighthouse} = new Lighthouse({lighthouseConfig, url: browserURL || browserWSEndpoint});
             protractorExtendObj = Object.assign(protractorExtendObj, {lighthouse});
             logger.info('Lighthouse was added to Protractor.');
         }

@@ -1,7 +1,7 @@
 'use strict';
 const puppeteerLib = require('puppeteer-core');
-const {logger: loggerFn} = require('./helpers/logger');
 
+const {logger: loggerFn} = require('./helpers/logger');
 const logger = loggerFn('Protractor and Puppeteer');
 
 class Puppeteer {

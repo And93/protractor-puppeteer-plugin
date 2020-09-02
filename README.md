@@ -1,21 +1,23 @@
 # Protractor-puppeteer plugin
 
 The main goal of this plugin is to enable the use of two tools in autotests written on Protractor.
+Also, this plugin can measure page performance using Lighthouse.
 
 **Chrome only supported.**
 
 ## Requirements:
 
-| Protractor-puppeteer plugin | Protractor | Puppeteer | NodeJS |
-|-----------------------------|------------|-----------|--------|
-| ^1.0.0                      | ^5.0.0     | ^2.1.0    | ^10    |
-| ^2.0.0                      | ^5.0.0     | ^3.0.0    | ^10    |
-| ^3.0.0                      | ^5.0.0     | ^4.0.0    | ^10    |
-| ^4.0.0 (`Current`)          | ^5.0.0     | ^5.0.0    | ^10    |
+| Protractor-puppeteer plugin | Protractor | Puppeteer | Lighthouse | NodeJS |
+|-----------------------------|------------|-----------|------------|--------|
+| ^1.0.0                      | ^5.0.0     | ^2.1.0    | -          | ^10    |
+| ^2.0.0                      | ^5.0.0     | ^3.0.0    | -          | ^10    |
+| ^3.0.0                      | ^5.0.0     | ^4.0.0    | -          | ^10    |
+| ^4.0.0                      | ^5.0.0     | ^5.0.0    | -          | ^10    |
+| ^5.0.0 (`Current`)          | ^5.0.0     | ^5.2.0    | ^6.3.0     | ^10    |
 
 ## How to add this plugin to protractor:
 
-```javascript
+```
 // protractor.conf.js
 
 plugins: [
@@ -48,6 +50,15 @@ plugins: [
             selenoid?: {
                 host: string, (E.g.: 'selenoid.example.com' or 'localhost')
                 port?: number (Default: 4444)
+            },
+            lighthouse?: {
+                flags?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
+                                                Default: {port: (!) Determined automatically, logLevel: 'info', output: ['json', 'html']}
+                                                (!) It is not recommended to change the port.
+                config?: {[key: string]: any}, See documentation: https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md
+                                                and types: https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16
+                                                Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
+                reportsDir?: string (Default: './artifacts/lighthouse/')
             }
         }
     }
@@ -86,6 +97,15 @@ E.g.:
     "selenoid"?: {
         "host": string, (E.g.: "selenoid.example.com" or "localhost")
         "port"?: number (Default: 4444)
+    },
+    "lighthouse"?: {
+        "flags"?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
+                                        Default: {"port": (!) Determined automatically, "logLevel": "info", "output": ["json", "html"]}
+                                        (!) It is not recommended to change the port.
+        "config"?: {[key: string]: any}, See documentation: https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md
+                                        and types: https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16
+                                        Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
+        "reportsDir"?: string (Default: './artifacts/lighthouse/')
     }
 }
 ```
@@ -94,6 +114,9 @@ E.g.:
 * [`connectOptions`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions)
 * [`timeout`](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetdefaulttimeouttimeout)
 * [`defaultArgs`](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteerdefaultargsoptions)
+* [`flags (types)`](https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151)
+* [`config (types)`](https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16)
+* [`config (documentation)`](https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md)
 
 ## How to use:
 
@@ -162,6 +185,16 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
    await setup();
    ```
 
+5. Lighthouse. If you need to measure page performance, run the function:
+
+    ```javascript
+    const {browser} = require('protractor');
+   
+    await browser.lighthouse('https://my-url/');
+    ```
+   
+   During the execution Lighthouse opens a new tab, performs necessary actions, closes the tab and generates a report.
+
 ### Example:
 ```javascript    
 // protractor.conf.js
@@ -186,7 +219,7 @@ plugins: [{
 const {browser} = require('protractor');
 
 describe('Example suite', () => {
-    it('Simple test', async () => {
+    it('Protractor and Puppeteer together', async () => {
         await browser.get('https://angular.io/');
         await browser.$('.hero-background a[href="https://angular.io/cli"]').click();
         await browser.cdp.page.waitForNavigation({waitUntil: 'networkidle0'});
@@ -205,7 +238,7 @@ describe('Example suite', () => {
         );
     });
 
-    it('Mocking a response', async () => {
+    it('Mocking a response using Puppeteer', async () => {
         await browser.cdp.page.setRequestInterception(true);
 
         browser.cdp.page.on('request', async request => {
@@ -223,11 +256,16 @@ describe('Example suite', () => {
         // await browser.waitForAngularEnabled(false);
         // await browser.get('http://jsonplaceholder.typicode.com/photos');
     });
+
+    it('Lighthouse example', async () => {
+        await browser.lighthouse('http://jsonplaceholder.typicode.com');
+        // a report will available within './artifacts/lighthouse/' dirrectory. Default reports: html; json.
+    });
 });
 ```
 
 ```typescript
-============== TypeScript ==============
+// ============== TypeScript ==============
 
 // awesome.test.ts
 import {browser} from 'protractor';
@@ -235,9 +273,10 @@ import 'protractor-puppeteer-plugin'; // to have autocomplete
 
 describe('Example suite', () => {
     it('Simple test', async () => { 
-        browser.puppeteer. ---> autocomplete is available
-        browser.har. ---> autocomplete is available
-        browser.cdp. ---> autocomplete is available
+        browser.puppeteer. // ---> autocomplete is available
+        browser.har. // ---> autocomplete is available
+        browser.cdp. // ---> autocomplete is available
+        browser.lighthouse() // ---> autocomplete is available for params
     });
 });
 ```
@@ -283,7 +322,7 @@ Protractor:
 
 Puppeteer:
 * https://pptr.dev/
-* https://github.com/GoogleChrome/puppeteer
+* https://github.com/puppeteer/puppeteer
 * https://try-puppeteer.appspot.com/
 * https://developers.google.com/web/tools/puppeteer
 * Examples:
@@ -291,3 +330,9 @@ Puppeteer:
 
 Chrome DevTools Protocol:
 * https://chromedevtools.github.io/devtools-protocol/
+
+Lighthouse:
+* https://github.com/GoogleChrome/lighthouse
+* https://developers.google.com/web/tools/lighthouse
+* Using Puppeteer with Lighthouse:
+    * https://github.com/GoogleChrome/lighthouse/blob/master/docs/puppeteer.md

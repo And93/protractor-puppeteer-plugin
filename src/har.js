@@ -1,8 +1,10 @@
 'use strict';
 
 const har = require('chrome-har');
-const FileSystemHelper = require('./FileSystemHelper');
-const logHelper = require('./LogHelper');
+const FileSystem = require('./helpers/fileSystem');
+const {logger: loggerFn} = require('./helpers/logger');
+
+const logger = loggerFn('Protractor and Puppeteer');
 
 const observe = [
     'Page.loadEventFired',
@@ -23,13 +25,20 @@ const events = [{}];
 
 class HarHelper {
 
+    /**
+     * @param page {Page}
+     * @param path {string=}
+     */
     constructor(page, path = './artifacts/har/') {
-        this._page = page;
-        this._fileSystemHelper = new FileSystemHelper(path);
+        this.page = page;
+        this.fileSystem = new FileSystem(path);
     }
 
+    /**
+     * @return {Promise<void>}
+     */
     async start() {
-        this._client = await this._page.target().createCDPSession();
+        this._client = await this.page.target().createCDPSession();
 
         await this._client.send('Page.enable');
         await this._client.send('Network.enable');
@@ -40,21 +49,22 @@ class HarHelper {
             });
         });
 
-        logHelper.generate('Protractor and Puppeteer', '"Har" capture began.').print();
+        logger.info('"Har" capture is started.');
     }
 
+    /**
+     * @return {Promise<void>}
+     */
     stop() {
         const harFromMessages = har.harFromMessages(events);
         const name = `${new Date().valueOf()}_PID_${process.pid}_chrome_browser_har_log.har`;
 
         observe.forEach(method => this._client.removeAllListeners(method));
 
-        this._fileSystemHelper.makeDir();
-        this._fileSystemHelper.writeFileStream(JSON.stringify(harFromMessages), name);
+        this.fileSystem.makeDir();
+        this.fileSystem.writeFileStream(JSON.stringify(harFromMessages), name);
 
-        logHelper
-            .generate('Protractor and Puppeteer', `"Har" capture completed. File name: ${name}`)
-            .print();
+        logger.info(`"Har" capture is finished. File name: ${name}`);
 
         return Promise.resolve();
     }

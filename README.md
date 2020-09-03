@@ -228,16 +228,20 @@ const {browser} = require('protractor');
 describe('Example suite', () => {
     it('Protractor and Puppeteer together', async () => {
         await browser.get('https://angular.io/');
-        await browser.$('.hero-background a[href="https://angular.io/cli"]').click();
-        await browser.cdp.page.waitForNavigation({waitUntil: 'networkidle0'});
-        await browser.cdp.page.waitForSelector('#start', {visible: true, hidden: false});
+
+        await browser.cdp.page.waitForSelector('.button.hero-cta', {visible: true, hidden: false});
+        await browser.$('.button.hero-cta').click();
+
         await browser.cdp.page.goto('https://cli.angular.io/', {waitUntil: ['networkidle0', 'domcontentloaded']});
         await browser.cdp.page.waitForResponse('https://cli.angular.io/favicon.ico');
-        
-        const getStartedBrn = browser.$('[href="https://angular.io/cli"]');
-        
-        await browser.wait(ExpectedConditions.visibilityOf(getStartedBrn));
+
+        const getStartedBrn = browser.$('href="https://angular.io/cli"');
+
+        await browser.wait(browser.ExpectedConditions.visibilityOf(getStartedBrn));
+
+        await browser.har.start();
         await getStartedBrn.click();
+        await browser.har.stop(); // HAR file will available within './artifacts/har/' directory.
 
         expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(
             true,
@@ -266,7 +270,7 @@ describe('Example suite', () => {
 
     it('Lighthouse example', async () => {
         await browser.lighthouse('https://angular.io/');
-        // a report will available within './artifacts/lighthouse/' dirrectory. Default reports: html; json.
+        // a report will available within './artifacts/lighthouse/' directory. Default reports: html; json.
     });
 });
 ```

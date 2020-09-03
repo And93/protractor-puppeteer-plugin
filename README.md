@@ -60,7 +60,8 @@ plugins: [
                                                 and types: https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16
                                                 Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
                 reportsDir?: string (Default: './artifacts/lighthouse/')
-            }
+            },
+            logLevel?: 'verbose' | 'info' | 'warn' | 'error' | 'silent' (Default: 'info')
         }
     }
 ]
@@ -108,7 +109,8 @@ E.g.:
                                         and types: https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16
                                         Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
         "reportsDir"?: string (Default: "./artifacts/lighthouse/")
-    }
+    },
+    "logLevel"?: "verbose" | "info" | "warn" | "error" | "silent" (Default: "info")
 }
 ```
 

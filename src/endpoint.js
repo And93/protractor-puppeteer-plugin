@@ -36,6 +36,8 @@ class Endpoint {
             logger.info(`Connecting to Chrome via: browserURL: ${browserURL}`);
         }
 
+        logger.debug({browserWSEndpoint, browserURL});
+
         return {
             browserWSEndpoint,
             browserURL

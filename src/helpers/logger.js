@@ -1,6 +1,18 @@
 'use strict';
 
 /**
+ * @type {'verbose' | 'info' | 'warn' |'error' | 'silent'}
+ */
+let logLevel = 'info';
+
+/**
+ * @param lvl {'verbose' | 'info' | 'warn' |'error' | 'silent'}
+ */
+function setLogLevel(lvl) {
+    logLevel = lvl;
+}
+
+/**
  * @param namespace {string}
  */
 function logger(namespace) {
@@ -8,41 +20,59 @@ function logger(namespace) {
     const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
 
     /**
-     * @param value {string}
+     * @param type {'VERBOSE' | 'INFO' | 'WARN' | 'ERROR'}
+     * @param value {any}
      * @return {string}
      */
-    const log = value => `[${time}] [${namespace}] PID: ${process.pid}. ${value}`;
+    const log = (type, value) => `[${time}] [PID: ${process.pid}] [${type}] ${namespace} - ${JSON.stringify(value)}`;
+
+    logLevel = logLevel.toLowerCase();
+
+    if (logLevel === 'silent') {
+        return;
+    }
 
     return {
         /**
-         * @param value {string}
-         * @return {void}
-         */
-        info(value) {
-            return console.info(log(value));
-        },
-        /**
-         * @param value {string}
+         * @param value {any}
          * @return {void}
          */
         debug(value) {
-            return console.debug(log(value));
+            if (logLevel === 'verbose') {
+                return console.debug(log('VERBOSE', value));
+            }
         },
         /**
-         * @param value {string}
+         * @param value {any}
          * @return {void}
          */
-        error(value) {
-            return console.error(log(value));
+        info(value) {
+            if (logLevel === 'verbose' || logLevel === 'info') {
+                return console.info(log('INFO', value));
+            }
         },
         /**
-         * @param value {string}
+         * @param value {any}
          * @return {void}
          */
         warn(value) {
-            return console.warn(log(value));
-        }
+            if (logLevel === 'verbose' || logLevel === 'info' || logLevel === 'warn') {
+                return console.warn(log('WARN', value));
+            }
+        },
+        /**
+         * @param value {any}
+         * @return {void}
+         */
+        error(value) {
+            if (logLevel === 'verbose' || logLevel === 'info' || logLevel === 'warn' || logLevel === 'error') {
+                return console.error(log('ERROR', value));
+            }
+        },
     }
 }
 
-module.exports = {logger};
+module.exports = {
+    logger,
+    setLogLevel
+};

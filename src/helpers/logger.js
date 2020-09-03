@@ -3,13 +3,15 @@
 /**
  * @type {'verbose' | 'info' | 'warn' |'error' | 'silent'}
  */
-let logLevel;
+let logLevel = 'info';
 
 /**
- * @param lvl {'verbose' | 'info' | 'warn' |'error' | 'silent'}
+ * @param lvl {'verbose' | 'info' | 'warn' |'error' | 'silent'=}
  */
 function setLogLevel(lvl) {
-    logLevel = lvl;
+    if (lvl) {
+        logLevel = lvl;
+    }
 }
 
 /**

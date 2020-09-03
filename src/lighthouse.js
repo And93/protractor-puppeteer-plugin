@@ -1,5 +1,6 @@
 'use strict';
 const lighthouseLib = require('lighthouse');
+const protractor = require('protractor');
 const {URL} = require('url');
 
 const FileSystem = require('./helpers/fileSystem');
@@ -52,11 +53,36 @@ class Lighthouse {
             result = await lighthouseLib(url, flags, config, connection);
         } catch (e) {
 
-            if (e.message.includes('You probably have multiple tabs open to the same origin')) {
+            // https://github.com/GoogleChrome/lighthouse/issues/3024
+            if (e.message.includes('You probably have multiple tabs open to the same origin') && 'cdp' in protractor.browser) {
+                const currentUrl = protractor.browser.cdp.page.url();
+
+                await protractor.browser.cdp.browser.newPage();
+                const [firstPage, secondPage] = await protractor.browser.cdp.browser.pages();
+                await firstPage.close();
+
+                result = await lighthouseLib(url, flags, config, connection);
+
+                const [tab] = await protractor.browser.driver.getAllWindowHandles();
+                await protractor.browser.driver.switchTo().window(tab);
+                Object.assign(protractor.browser.cdp.page, secondPage);
+
+                await protractor.browser.driver.get(currentUrl);
+
+                logger.info('Applied a workaround for lighthouse function due to the issue.' +
+                    '\n\tPlease check the issue for more details: https://github.com/GoogleChrome/lighthouse/issues/3024'
+                );
+            } else if (e.message.includes('You probably have multiple tabs open to the same origin')) {
                 e.message += '\n\tPlease check the issue for more details: https://github.com/GoogleChrome/lighthouse/issues/3024' +
-                    '\n\tYou can find a workaround here: README.md > Workarounds\n';
+                    '\n\tThis issue may occur for PWA apps or when Service workers present on the page.' +
+                    '\n\tFor automatically applying a known workaround, please setup `connectToBrowser: true` option in the `protractor-puppeteer-plugin` config' +
+                    '\n\tWhat this workaround is you can find here: protractor-puppeteer-plugin > README.md > Workarounds' +
+                    '\n\t(https://github.com/And93/protractor-puppeteer-plugin/#workarounds)\n';
+
+                throw e;
+            } else {
+                throw e;
             }
-            throw e;
         }
 
         logger.info('Audit is finished');

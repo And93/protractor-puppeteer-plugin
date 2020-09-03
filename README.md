@@ -340,6 +340,10 @@ More arguments you can find here:
 ## Workarounds
 
 1. Error: '**Error: You probably have multiple tabs open to the same origin.**' during `await browser.lighthouse('https://my-site/')`:
+
+**(!)** This workaround will be applied automatically, if the option `connectToBrowser: true` is set in the `protractor-puppeteer-plugin` config.
+More details about the issue: https://github.com/GoogleChrome/lighthouse/issues/3024
+
 ```typescript
 import {browser} from 'protractor';
 import {describe, it} from 'mocha';
@@ -359,21 +363,27 @@ describe('Lighthouse workaround', () => {
         // await browser.cdp.page.goto('https://angular.io/');
         await browser.get('https://angular.io/');
         await browser.$('.button.hero-cta').click();
+        
+        // worharound
 
-        const currentUrl = browser.cdp.page.url();
-
-        await browser.cdp.browser.newPage();
-        const [firstPage, secondPage] = await browser.cdp.browser.pages();
-        await firstPage.close();
-
-        await browser.lighthouse('https://angular.io/');
-
-        const [tab] = await browser.getAllWindowHandles();
-        await browser.switchTo().window(tab);
-        Object.assign(browser.cdp.page, secondPage);
-
-        await browser.get(currentUrl); // Now it works
-        // await browser.cdp.page.goto(url); // Now it works
+        async function lighthouse(url) {
+            const currentUrl = browser.cdp.page.url();
+            
+            await browser.cdp.browser.newPage();
+            const [firstPage, secondPage] = await browser.cdp.browser.pages();
+            await firstPage.close();
+            
+            await browser.lighthouse(url);
+            
+            const [tab] = await browser.getAllWindowHandles();
+            await browser.switchTo().window(tab);
+            Object.assign(browser.cdp.page, secondPage);
+            
+            await browser.get(currentUrl); // Now it works
+            // await browser.cdp.page.goto(currentUrl); // Now it works
+        }
+        
+        await lighthouse('https://angular.io/');
     });
 });
 ```

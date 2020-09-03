@@ -53,7 +53,7 @@ declare module 'protractor' {
                 readonly config?: lighthouse.Config.Json
                 readonly reportsDir?: string
             };
-            // readonly logLevel?: 'info' | 'verbose' | 'error' | 'silent'; todo
+            readonly logLevel?: 'verbose' | 'info' | 'warn' | 'error' | 'silent';
         }
     }
 }

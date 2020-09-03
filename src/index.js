@@ -9,7 +9,7 @@ const Lighthouse = require('./lighthouse');
 const Puppeteer = require('./puppeteer');
 const Endpoint = require('./endpoint');
 
-const {logger: loggerFn} = require('./helpers/logger');
+let {logger: loggerFn, setLogLevel} = require('./helpers/logger');
 const logger = loggerFn('Protractor and Puppeteer');
 
 module.exports = async function () {
@@ -17,7 +17,7 @@ module.exports = async function () {
     const {capabilities, plugins} = await protractor.browser.getProcessedConfig();
 
     if (capabilities.browserName !== 'chrome') {
-        throw logger.error('Supported only Chrome browser.');
+        throw new Error('Supported only Chrome browser.');
     }
 
     for (const plugin of plugins) {
@@ -39,8 +39,22 @@ module.exports = async function () {
             harDir,
             defaultArgs,
             selenoid,
-            lighthouse: lighthouseConfig
+            lighthouse: lighthouseConfig,
+            logLevel: logLvlConfig
         } = configFile ? require(resolve(configFile)) : configOptions;
+
+        setLogLevel(logLvlConfig);
+
+        logger.debug({
+            connectToBrowser,
+            connectOptions,
+            timeout,
+            harDir,
+            defaultArgs,
+            selenoid,
+            lighthouse: lighthouseConfig,
+            logLevel: logLvlConfig
+        });
 
         let protractorExtendObj = {puppeteer: puppeteerLib};
 

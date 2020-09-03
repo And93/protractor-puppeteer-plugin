@@ -43,7 +43,7 @@ module.exports = async function () {
             logLevel: logLvlConfig
         } = configFile ? require(resolve(configFile)) : configOptions;
 
-        setLogLevel(logLvlConfig);
+        setLogLevel(logLvlConfig || 'info');
 
         logger.debug({
             connectToBrowser,

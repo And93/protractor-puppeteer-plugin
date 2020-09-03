@@ -3,7 +3,7 @@
 /**
  * @type {'verbose' | 'info' | 'warn' |'error' | 'silent'}
  */
-let logLevel = 'info';
+let logLevel;
 
 /**
  * @param lvl {'verbose' | 'info' | 'warn' |'error' | 'silent'}

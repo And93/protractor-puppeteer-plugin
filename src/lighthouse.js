@@ -1,6 +1,5 @@
 'use strict';
 const lighthouseLib = require('lighthouse');
-const protractor = require('protractor');
 const {URL} = require('url');
 
 const FileSystem = require('./helpers/fileSystem');
@@ -47,12 +46,18 @@ class Lighthouse {
 
         logger.info('Audit is started');
 
-        // This refresh is necessary because after some protractor actions the following error may occur:
-        // Error: You probably have multiple tabs open to the same origin
-        // https://github.com/GoogleChrome/lighthouse/issues/3024
-        await protractor.browser.driver.navigate().refresh();
+        let result;
 
-        const result = await lighthouseLib(url, flags, config, connection);
+        try {
+            result = await lighthouseLib(url, flags, config, connection);
+        } catch (e) {
+
+            if (e.message.includes('You probably have multiple tabs open to the same origin')) {
+                e.message += '\n\tPlease check the issue for more details: https://github.com/GoogleChrome/lighthouse/issues/3024' +
+                    '\n\tYou can find a workaround here: README.md > Workarounds\n';
+            }
+            throw e;
+        }
 
         logger.info('Audit is finished');
 

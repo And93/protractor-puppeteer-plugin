@@ -80,6 +80,6 @@ module.exports = async function () {
 
         Object.assign(protractor.ProtractorBrowser.prototype, protractorExtendObj);
 
-        logger.info('Plugin added successfully.');
+        logger.info('Plugin was added successfully.');
     }
 };

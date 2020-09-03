@@ -292,7 +292,7 @@ describe('Example suite', () => {
         browser.puppeteer. // ---> autocomplete is available
         browser.har. // ---> autocomplete is available
         browser.cdp. // ---> autocomplete is available
-        browser.lighthouse(params); // ---> autocomplete is available for params
+        await browser.lighthouse(params); // ---> autocomplete is available for params
     });
 });
 ```
@@ -330,6 +330,47 @@ capabilities: {
 
 More arguments you can find here: 
 * [List of Chromium Command Line Switches](https://peter.sh/experiments/chromium-command-line-switches/)
+
+## Workarounds
+
+1. Error: '**Error: You probably have multiple tabs open to the same origin.**' during `await browser.lighthouse('https://my-site/')`:
+```typescript
+import {browser} from 'protractor';
+import {describe, it} from 'mocha';
+import 'protractor-puppeteer-plugin'
+
+describe('Lighthouse workaround', () => {
+
+    it('Failed test', async () => {
+        // await browser.cdp.page.goto('https://angular.io/');
+        await browser.get('https://angular.io/');
+        await browser.$('.button.hero-cta').click();
+        await browser.lighthouse('https://angular.io/'); // Error: You probably have multiple tabs open to the same origin.
+    })
+
+    it('Successful test', async () => {
+
+        // await browser.cdp.page.goto('https://angular.io/');
+        await browser.get('https://angular.io/');
+        await browser.$('.button.hero-cta').click();
+
+        const currentUrl = browser.cdp.page.url();
+
+        await browser.cdp.browser.newPage();
+        const [firstPage, secondPage] = await browser.cdp.browser.pages();
+        await firstPage.close();
+
+        await browser.lighthouse('https://angular.io/');
+
+        const [tab] = await browser.getAllWindowHandles();
+        await browser.switchTo().window(tab);
+        Object.assign(browser.cdp.page, secondPage);
+
+        await browser.get(currentUrl); // Now it works
+        // await browser.cdp.page.goto(url); // Now it works
+    });
+});
+```
 
 ## Documentation:
 Protractor:

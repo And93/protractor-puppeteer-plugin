@@ -407,5 +407,6 @@ Chrome DevTools Protocol:
 Lighthouse:
 * https://github.com/GoogleChrome/lighthouse
 * https://developers.google.com/web/tools/lighthouse
+* https://github.com/GoogleChrome/lighthouse/blob/master/docs/readme.md#using-programmatically
 * Using Puppeteer with Lighthouse:
     * https://github.com/GoogleChrome/lighthouse/blob/master/docs/puppeteer.md

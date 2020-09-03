@@ -69,8 +69,8 @@ class Lighthouse {
 
                 await protractor.browser.driver.get(currentUrl);
 
-                logger.info('Applied a workaround for lighthouse function due to the issue.' +
-                    '\n\tPlease check the issue for more details: https://github.com/GoogleChrome/lighthouse/issues/3024'
+                logger.warn('Applied a workaround for lighthouse function due to the issue. ' +
+                    'Please check the issue for more details: https://github.com/GoogleChrome/lighthouse/issues/3024'
                 );
             } else if (e.message.includes('You probably have multiple tabs open to the same origin')) {
                 e.message += '\n\tPlease check the issue for more details: https://github.com/GoogleChrome/lighthouse/issues/3024' +

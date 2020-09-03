@@ -40,10 +40,10 @@ module.exports = async function () {
             defaultArgs,
             selenoid,
             lighthouse: lighthouseConfig,
-            logLevel: logLvlConfig
+            logLevel
         } = configFile ? require(resolve(configFile)) : configOptions;
 
-        setLogLevel(logLvlConfig || 'info');
+        setLogLevel(logLevel);
 
         logger.debug({
             connectToBrowser,
@@ -53,7 +53,7 @@ module.exports = async function () {
             defaultArgs,
             selenoid,
             lighthouse: lighthouseConfig,
-            logLevel: logLvlConfig
+            logLevel
         });
 
         let protractorExtendObj = {puppeteer: puppeteerLib};

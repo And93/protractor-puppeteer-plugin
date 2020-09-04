@@ -20,51 +20,49 @@ Also, this plugin can measure page performance using Lighthouse.
 ```
 // protractor.conf.js
 
-plugins: [
-    {
-        package: 'protractor-puppeteer-plugin',
-        (or path: require.resolve('protractor-puppeteer-plugin'))
-        configFile?: './path/to/puppeteer.conf.json',
-        configOptions?: {
-            connectToBrowser?: boolean, (Default: false)
-            connectOptions?: {
-                defaultViewport?: {
-                    width?: number, (Default: 800px)
-                    height?: number, (Default: 600px)
-                    deviceScaleFactor?: number, (Default: 1)
-                    isMobile?: boolean, (Default: false)
-                    hasTouch?: boolean, (Default: false)
-                    isLandscape?: boolean (Default: false)
-                },
-                ignoreHTTPSErrors?: boolean, (Default: false)
-                slowMo?: number (Default: 0ms)
+plugins: [{
+    package: 'protractor-puppeteer-plugin',
+    (or path: require.resolve('protractor-puppeteer-plugin'))
+    configFile?: './path/to/puppeteer.conf.json',
+    configOptions?: {
+        connectToBrowser?: boolean, (Default: false) // This prop allows to connect Puppeteer to Protractor
+        connectOptions?: {
+            defaultViewport?: {
+                width?: number, (Default: 800px)
+                height?: number, (Default: 600px)
+                deviceScaleFactor?: number, (Default: 1)
+                isMobile?: boolean, (Default: false)
+                hasTouch?: boolean, (Default: false)
+                isLandscape?: boolean (Default: false)
             },
-            timeout?: number, (Default: 30000ms)
-            defaultArgs?: {
-                headless?: boolean,
-                args?: Array<string>,
-                userDataDir?: string,
-                devtools?: boolean
-            },
-            harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
-            selenoid?: {
-                host: string, (E.g.: 'selenoid.example.com' or 'localhost')
-                port?: number (Default: 4444)
-            },
-            lighthouse?: {
-                enable?: boolean, (Default: false)
-                flags?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
-                                                Default: {port: (!) Determined automatically, logLevel: 'info', output: ['json', 'html']}
-                                                (!) It is not recommended to change the port.
-                config?: {[key: string]: any}, See documentation: https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md
-                                                and types: https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16
-                                                Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
-                reportsDir?: string (Default: './artifacts/lighthouse/')
-            },
-            logLevel?: 'verbose' | 'info' | 'warn' | 'error' | 'silent' (Default: 'info')
-        }
+            ignoreHTTPSErrors?: boolean, (Default: false)
+            slowMo?: number (Default: 0ms)
+        },
+        timeout?: number, (Default: 30000ms)
+        defaultArgs?: {
+            headless?: boolean,
+            args?: Array<string>,
+            userDataDir?: string,
+            devtools?: boolean
+        },
+        harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
+        selenoid?: {
+            host: string, (E.g.: 'selenoid.example.com' or 'localhost')
+            port?: number (Default: 4444)
+        },
+        lighthouse?: {
+            enable?: boolean, (Default: false) // This prop allows to connect Lighthouse to Protractor
+            flags?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
+                                            Default: {port: (!) Determined automatically, logLevel: 'info', output: ['json', 'html']}
+                                            (!) It is not recommended to change the port.
+            config?: {[key: string]: any}, See documentation: https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md
+                                            and types: https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16
+                                            Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
+            reportsDir?: string (Default: './artifacts/lighthouse/')
+        },
+        logLevel?: 'verbose' | 'info' | 'warn' | 'error' | 'silent' (Default: 'info') // Changes the plugin logs
     }
-]
+}]
 ```
 **(!) Note:** The `configFile` property takes precedence over the `configOptions` property.
 
@@ -74,8 +72,9 @@ The `configFile` must be `.json` extension and contains the following properties
 
 E.g.:
 ```
+// puppeteer.conf.json
 {
-    "connectToBrowser"?: boolean, (Default: false)
+    "connectToBrowser"?: boolean, (Default: false) // This prop allows to connect Puppeteer to Protractor
     "connectOptions"?: {
        "defaultViewport"?: {
            "width"?: number, (Default: 800px)
@@ -101,7 +100,7 @@ E.g.:
         "port"?: number (Default: 4444)
     },
     "lighthouse"?: {
-        "enable"?: boolean, (Default: false)
+        "enable"?: boolean, (Default: false) // This prop allows to connect Lighthouse to Protractor
         "flags"?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
                                         Default: {"port": (!) Determined automatically, "logLevel": "info", "output": ["json", "html"]}
                                         (!) It is not recommended to change the port.
@@ -110,7 +109,7 @@ E.g.:
                                         Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
         "reportsDir"?: string (Default: "./artifacts/lighthouse/")
     },
-    "logLevel"?: "verbose" | "info" | "warn" | "error" | "silent" (Default: "info")
+    "logLevel"?: "verbose" | "info" | "warn" | "error" | "silent" (Default: "info") // Changes the plugin logs
 }
 ```
 
@@ -131,9 +130,9 @@ you should use `puppeteer` property:
     ```javascript
     const {browser} = require('protractor');
     
-    browser.puppeteer.launch([options]);
-    browser.puppeteer.connect(options);
-    browser.puppeteer.createBrowserFetcher([options]);
+    await browser.puppeteer.launch([options]);
+    await browser.puppeteer.connect(options);
+    await browser.puppeteer.createBrowserFetcher([options]);
     browser.puppeteer.defaultArgs([options]);
     
     const iDevices = browser.puppeteer.devices['iDevices'];
@@ -174,7 +173,7 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
      
     await browser.har.start();
     // test actions
-    await browser.har.stop();
+    await browser.har.stop(); // HAR file will stored automatically. Default: './artifacts/har/' directory.
     ```
 
     Saved files can be read by Chrome.
@@ -195,16 +194,19 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
     const {browser} = require('protractor');
    
     await browser.lighthouse('https://my-url/');
+    // The report(s) will stored automatically. Default: './artifacts/lighthouse/' directory; '.html' and '.json' formats.
     ```
    
    During the execution Lighthouse opens a new tab, performs necessary actions, closes the tab and generates a report.
+   More information about this class you can find here:
+   * [`Lighthouse`](https://github.com/GoogleChrome/lighthouse)
 
 ### Example:
 ```javascript    
 // protractor.conf.js
 plugins: [{
-        package: 'protractor-puppeteer-plugin',
-        configFile: './path/to/puppeteer.conf.json'
+    package: 'protractor-puppeteer-plugin',
+    configFile: './path/to/puppeteer.conf.json'
 }]
 
 // puppeteer.conf.json
@@ -241,7 +243,7 @@ describe('Example suite', () => {
 
         await browser.har.start();
         await getStartedBrn.click();
-        await browser.har.stop(); // HAR file will available within './artifacts/har/' directory.
+        await browser.har.stop();
 
         expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(
             true,
@@ -270,7 +272,6 @@ describe('Example suite', () => {
 
     it('Lighthouse example', async () => {
         await browser.lighthouse('https://angular.io/');
-        // a report will available within './artifacts/lighthouse/' directory. Default reports: html; json.
     });
 });
 ```
@@ -353,6 +354,7 @@ describe('Lighthouse workaround', () => {
 
     it('Failed test', async () => {
         // await browser.cdp.page.goto('https://angular.io/');
+        // or
         await browser.get('https://angular.io/');
         await browser.$('.button.hero-cta').click();
         await browser.lighthouse('https://angular.io/'); // Error: You probably have multiple tabs open to the same origin.
@@ -361,10 +363,11 @@ describe('Lighthouse workaround', () => {
     it('Successful test', async () => {
 
         // await browser.cdp.page.goto('https://angular.io/');
+        // or
         await browser.get('https://angular.io/');
         await browser.$('.button.hero-cta').click();
         
-        // worharound
+        // workaround
 
         async function lighthouse(url) {
             const currentUrl = browser.cdp.page.url();
@@ -380,6 +383,7 @@ describe('Lighthouse workaround', () => {
             Object.assign(browser.cdp.page, secondPage);
             
             await browser.get(currentUrl); // Now it works
+            // or
             // await browser.cdp.page.goto(currentUrl); // Now it works
         }
         

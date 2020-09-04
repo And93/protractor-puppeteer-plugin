@@ -31,7 +31,9 @@ class Puppeteer {
         if (this.defaultArgs) {
             puppeteerLib.defaultArgs(this.defaultArgs);
         }
+
         logger.debug(this.options);
+
         const browser = await puppeteerLib.connect(this.options);
         const target = await browser.waitForTarget(t => t.type() === 'page');
         const client = await target.createCDPSession();

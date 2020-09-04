@@ -94,6 +94,8 @@ module.exports = async function () {
 
         Object.assign(protractor.ProtractorBrowser.prototype, protractorExtendObj);
 
+        // logger.debug(protractorExtendObj);
+        // logger.debug(protractor.ProtractorBrowser);
         logger.info('Plugin was added successfully.');
     }
 };

@@ -12,7 +12,7 @@ class FileSystem {
     }
 
     /**
-     * @param dirname {string}
+     * @param dirname {string=}
      * @return {string}
      */
     getDirPath(dirname = this.path) {

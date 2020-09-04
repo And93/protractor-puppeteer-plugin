@@ -50,6 +50,9 @@ class Lighthouse {
         let result;
 
         try {
+            logger.debug(url);
+            logger.debug({flags, config, connection});
+
             result = await lighthouseLib(url, flags, config, connection);
         } catch (e) {
 

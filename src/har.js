@@ -46,13 +46,14 @@ class HarHelper {
 
         observe.forEach(method => {
             this.client.on(method, params => {
+                logger.debug({method, params});
                 events.push({method, params});
             });
         });
 
         logger.info('"Har" capture is started.');
 
-        // todo add process exist
+        // todo add catching process exist
     }
 
     /**

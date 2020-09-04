@@ -279,7 +279,7 @@ describe('Example suite', () => {
 // ============== TypeScript ==============
 // protractor.conf.ts
 import {Config} from 'protractor';
-import 'protractor-puppeteer-plugin';
+import 'protractor-puppeteer-plugin'; // to have autocomplete
 
 export const config: Config = {
     // ...

@@ -18,15 +18,16 @@ function setLogLevel(lvl) {
  * @param namespace {string}
  */
 function logger(namespace) {
-    const date = new Date();
-    const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
-
     /**
      * @param type {'VERBOSE' | 'INFO' | 'WARN' | 'ERROR'}
      * @param value {any}
      * @return {string}
      */
-    const log = (type, value) => `[${time}] [PID: ${process.pid}] [${type}] ${namespace} - ${JSON.stringify(value)}`;
+    const log = (type, value) => {
+        const date = new Date();
+        const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
+        return `[${time}] [PID: ${process.pid}] [${type}] ${namespace} - ${JSON.stringify(value)}`;
+    };
 
     logLevel = logLevel.toLowerCase();
 

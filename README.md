@@ -193,9 +193,22 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
     ```javascript
     const {browser} = require('protractor');
    
-    await browser.lighthouse('https://my-url/');
+    await browser.lighthouse(url, {flags?, config?, connection?});
     // The report(s) will stored automatically. Default: './artifacts/lighthouse/' directory; '.html' and '.json' formats.
     ```
+   
+   where:
+   * `url` - The URL to test.
+   * `flags`- Optional settings for the Lighthouse run. If present, they will override any settings in the config;
+        > Default flags: `{"port": (!) Determined automatically, "logLevel": "info", "output": ["json", "html"]}`.
+        **(!) It is not recommended to change the port**.
+        [Types](https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151).
+   * `config` - Configuration for the Lighthouse run. If not present, the default config is used;
+        > [Default config](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11),
+        [Documentation](https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md) and
+        [Types](https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16).
+   * `connection` - Custom connection if it's not ChromeProtocol. If not present, the `host` and `port` are used;;
+        > [Source code](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/gather/connections/cri.js)
    
    During the execution Lighthouse opens a new tab, performs necessary actions, closes the tab and generates a report.
    More information about this class you can find here:

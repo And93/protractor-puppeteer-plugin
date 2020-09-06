@@ -1,5 +1,11 @@
 # Release notes
 
+## 5.0.1 - 2020-09-06
+
+### Added
+
+* Fixed README
+
 ## 5.0.0 - 2020-09-06
 
 ### Added

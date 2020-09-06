@@ -207,7 +207,7 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
         > [Default config](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11),
         [Documentation](https://github.com/GoogleChrome/lighthouse/blob/master/docs/configuration.md) and
         [Types](https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16).
-   * `connection` - Custom connection if it's not ChromeProtocol. If not present, the `host` and `port` are used;;
+   * `connection` - Custom connection if it's not ChromeProtocol. If not present, the `host` and `port` are used;
         > [Source code](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/gather/connections/cri.js)
    
    During the execution Lighthouse opens a new tab, performs necessary actions, closes the tab and generates a report.

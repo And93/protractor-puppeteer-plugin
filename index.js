@@ -2,5 +2,5 @@
 
 module.exports = {
     name: 'protractor-puppeteer-plugin',
-    setup: require('./src/Plugin')
+    setup: require('./src'),
 };

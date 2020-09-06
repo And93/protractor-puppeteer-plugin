@@ -1,6 +1,6 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Plugin for merging puppeteer with protractor",
   "main": "index.js",
   "types": "index.d.ts",
@@ -19,7 +19,8 @@
     "chrome",
     "cdp",
     "har",
-    "devtools"
+    "devtools",
+    "lighthouse"
   ],
   "author": "Andrei Dzeichyk <andreidei4ik@gmail.com>",
   "license": "MIT",
@@ -27,8 +28,9 @@
   "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
   "dependencies": {
     "@types/puppeteer-core": "^2.0.0",
-    "chrome-har": "^0.11.9",
-    "puppeteer-core": "^5.0.0"
+    "chrome-har": "^0.11.11",
+    "lighthouse": "^6.3.0",
+    "puppeteer-core": "^5.2.1"
   },
   "devDependencies": {
     "protractor": "^7.0.0"

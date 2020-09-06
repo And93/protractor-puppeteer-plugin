@@ -3,12 +3,19 @@
 const {createWriteStream, mkdirSync, existsSync} = require('fs');
 const {join, resolve} = require('path');
 
-class FileSystemHelper {
+class FileSystem {
+    /**
+     * @param path {string}
+     */
     constructor(path) {
-        this._path = path;
+        this.path = path;
     }
 
-    getDirPath(dirname = this._path) {
+    /**
+     * @param dirname {string=}
+     * @return {string}
+     */
+    getDirPath(dirname = this.path) {
         return resolve(join(process.cwd(), dirname));
     }
 
@@ -18,12 +25,17 @@ class FileSystemHelper {
         }
     }
 
+    /**
+     * @param data {string}
+     * @param name {string}
+     * @param encoding {BufferEncoding=}
+     */
     writeFileStream(data, name, encoding) {
-        const file = join(process.cwd(), this._path, name);
+        const file = join(process.cwd(), this.path, name);
         const stream = createWriteStream(file);
         stream.write(Buffer.from(data, encoding));
         stream.end();
     }
 }
 
-module.exports = FileSystemHelper;
+module.exports = FileSystem;

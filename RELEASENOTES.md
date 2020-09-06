@@ -1,5 +1,13 @@
 # Release notes
 
+## 5.0.0 - 2020-09-06
+
+### Added
+
+* Added API to work with Lighthouse
+* Added 'logLevel' property
+* Updated dependencies to `puppeteer@5.2.1`
+
 ## 4.0.0 - 2020-07-09
 
 ### Added

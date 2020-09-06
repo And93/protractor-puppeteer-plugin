@@ -1,6 +1,7 @@
 /// <reference types="protractor" />
 
 import * as puppeteer from 'puppeteer';
+import * as lighthouse from 'lighthouse';
 
 declare module 'protractor-puppeteer-plugin' {
     export function setup(): Promise<void>;
@@ -10,22 +11,49 @@ declare module 'protractor-puppeteer-plugin' {
 
 declare module 'protractor' {
     export class ProtractorBrowser {
-        public puppeteer: typeof puppeteer;
+        public readonly puppeteer: typeof puppeteer;
 
-        public har: {
+        public readonly har: {
             start(): Promise<void>,
 
             stop(): Promise<void>
         };
 
-        public cdp: {
-            target: puppeteer.Target,
+        public readonly cdp: {
+            readonly target: puppeteer.Target,
 
-            client: puppeteer.CDPSession,
+            readonly client: puppeteer.CDPSession,
 
-            page: puppeteer.Page,
+            readonly page: puppeteer.Page,
 
-            browser: puppeteer.Browser
+            readonly browser: puppeteer.Browser
         };
+
+        public readonly lighthouse: (
+            url: string,
+            params?: { flags?: lighthouse.Flags, config?: lighthouse.Config.Json, connection?: lighthouse.Connection }
+        ) => Promise<lighthouse.RunnerResult>
+    }
+
+    export interface PluginConfig {
+        readonly configFile?: string;
+        readonly configOptions?: {
+            readonly connectToBrowser?: boolean;
+            readonly connectOptions?: puppeteer.BrowserOptions;
+            readonly timeout?: number;
+            readonly defaultArgs?: puppeteer.ChromeArgOptions;
+            readonly harDir?: string;
+            readonly selenoid?: {
+                readonly host: string,
+                readonly port?: number
+            };
+            readonly lighthouse?: {
+                readonly enabled?: boolean,
+                readonly flags?: lighthouse.Flags,
+                readonly config?: lighthouse.Config.Json
+                readonly reportsDir?: string
+            };
+            readonly logLevel?: 'verbose' | 'info' | 'warn' | 'error' | 'silent';
+        }
     }
 }

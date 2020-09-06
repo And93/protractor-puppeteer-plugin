@@ -1,4 +1,5 @@
 'use strict';
+
 const puppeteerLib = require('puppeteer-core');
 
 const {logger: loggerFn} = require('./helpers/logger');

@@ -1,4 +1,5 @@
 'use strict';
+
 const lighthouseLib = require('lighthouse');
 const protractor = require('protractor');
 const {URL} = require('url');

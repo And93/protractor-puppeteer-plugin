@@ -285,8 +285,8 @@ import 'protractor-puppeteer-plugin'; // to have autocomplete
 export const config: Config = {
     // ...
     plugins: [{
-        configFile: // ---> autocomplete is available
-        configOptions: // ---> autocomplete is available
+        configFile: {}, // ---> autocomplete is available
+        configOptions: {} // ---> autocomplete is available
     }],
 }
 

@@ -18,6 +18,12 @@ function setLogLevel(lvl) {
  * @param namespace {string}
  */
 function logger(namespace) {
+    logLevel = logLevel.toLowerCase();
+
+    if (logLevel === 'silent') {
+        return;
+    }
+
     /**
      * @param type {'VERBOSE' | 'INFO' | 'WARN' | 'ERROR'}
      * @param value {any}
@@ -28,12 +34,6 @@ function logger(namespace) {
         const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
         return `[${time}] [PID: ${process.pid}] [${type}] ${namespace} - ${JSON.stringify(value)}`;
     };
-
-    logLevel = logLevel.toLowerCase();
-
-    if (logLevel === 'silent') {
-        return;
-    }
 
     return {
         /**

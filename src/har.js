@@ -52,8 +52,6 @@ class HarHelper {
         });
 
         logger.info('"Har" capture is started.');
-
-        // todo add catching process exist
     }
 
     /**

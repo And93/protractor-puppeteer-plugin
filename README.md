@@ -51,7 +51,7 @@ plugins: [{
             port?: number (Default: 4444)
         },
         lighthouse?: {
-            enable?: boolean, (Default: false) // This prop allows to connect Lighthouse to Protractor
+            enabled?: boolean, (Default: false) // This prop allows to connect Lighthouse to Protractor
             flags?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
                                             Default: {port: (!) Determined automatically, logLevel: 'info', output: ['json', 'html']}
                                             (!) It is not recommended to change the port.
@@ -100,7 +100,7 @@ E.g.:
         "port"?: number (Default: 4444)
     },
     "lighthouse"?: {
-        "enable"?: boolean, (Default: false) // This prop allows to connect Lighthouse to Protractor
+        "enabled"?: boolean, (Default: false) // This prop allows to connect Lighthouse to Protractor
         "flags"?: {[key: string]: any}, See types: https://github.com/GoogleChrome/lighthouse/blob/master/types/externs.d.ts#L151
                                         Default: {"port": (!) Determined automatically, "logLevel": "info", "output": ["json", "html"]}
                                         (!) It is not recommended to change the port.
@@ -149,14 +149,14 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
     ```javascript
     const {browser} = require('protractor');
     
-    browser.puppeteer.devices
+    browser.puppeteer. // --> Puppeteer
     
     // ...
     
-    browser.cdp.target
-    browser.cdp.client
-    browser.cdp.page
-    browser.cdp.browser
+    browser.cdp.target. // --> Target
+    browser.cdp.client. // --> CDPSession
+    browser.cdp.page. // --> Page
+    browser.cdp.browser. // --> Browser
     ```
     
     More information about this class you can find here:
@@ -233,7 +233,7 @@ plugins: [{
     },
     "timeout": 60000,
     "lighthouse": {
-        "enable": true
+        "enabled": true
     }
 }   
 

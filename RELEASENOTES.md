@@ -1,5 +1,17 @@
 # Release notes
 
+## 5.1.0 - 2020-09-09
+
+### Added
+
+* Added 'reportName' parameter to `browser.har.stop()` and `browser.lighthouse()` functions 
+
+## 5.0.2 - 2020-09-08
+
+### Added
+
+* Fixed README
+
 ## 5.0.1 - 2020-09-06
 
 ### Added

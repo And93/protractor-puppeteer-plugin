@@ -55,18 +55,29 @@ class HarHelper {
     }
 
     /**
+     * @param reportName {string=}
      * @return {Promise<void>}
      */
-    stop() {
+    stop(reportName = 'chrome_browser_har_log') {
         const harFromMessages = har.harFromMessages(events);
-        const name = `${new Date().valueOf()}_PID_${process.pid}_chrome_browser_har_log.har`;
+
+        if (typeof reportName !== 'string' || reportName.length > 200) {
+            const currentName = {
+                name: reportName,
+                type: typeof reportName,
+                length: reportName.length
+            }
+            throw new Error(`The type of 'HAR' report prefix must be 'string' and contain no more than 200 symbols. Current ${JSON.stringify(currentName)}`);
+        }
+
+        const name = `${new Date().valueOf()}_PID_${process.pid}_${reportName.replace(/ /gm, '_')}.har`;
 
         observe.forEach(method => this.client.removeAllListeners(method));
 
         this.fileSystem.makeDir();
         this.fileSystem.writeFileStream(JSON.stringify(harFromMessages), name);
 
-        logger.info(`"Har" capture is finished. File name: ${name}`);
+        logger.info(`"Har" capture is finished. Report name: ${name}`);
 
         return Promise.resolve();
     }

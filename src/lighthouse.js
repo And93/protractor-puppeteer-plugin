@@ -33,7 +33,8 @@ class Lighthouse {
                 },
                 lighthouseConfig.flags
             ),
-            config: lighthouseConfig.config || require('lighthouse/lighthouse-core/config/lr-desktop-config.js')
+            config: lighthouseConfig.config || require('lighthouse/lighthouse-core/config/lr-desktop-config.js'),
+            reportName: 'lighthouse_report'
         }
     }
 
@@ -42,9 +43,10 @@ class Lighthouse {
      * @param flags {LH.Flags=}
      * @param config {LH.Config.Json=}
      * @param connection {LH.Connection=}
+     * @param reportName {string=}
      * @return {Promise<LH.RunnerResult>}
      */
-    async lighthouse(url, {flags, config, connection} = defaultParams) {
+    async lighthouse(url, {flags, config, connection, reportName} = defaultParams) {
 
         logger.info('Audit is started');
 
@@ -95,11 +97,21 @@ class Lighthouse {
             fileSystem.makeDir();
 
             function writeReport(data, extension) {
-                const reportName = `${new Date().valueOf()}_PID_${process.pid}_lighthouse_report.${extension}`;
+
+                if (typeof reportName !== 'string' || reportName.length > 200) {
+                    const currentName = {
+                        name: reportName,
+                        type: typeof reportName,
+                        length: reportName.length
+                    }
+                    throw new Error(`The type of 'Lighthouse' report prefix must be 'string' and contain no more than 200 symbols. Current ${JSON.stringify(currentName)}`);
+                }
+
+                const name = `${new Date().valueOf()}_PID_${process.pid}_${reportName}.${extension}`;
 
                 logger.info(`The '${extension}' report is generated'`);
 
-                fileSystem.writeFileStream(data, reportName);
+                fileSystem.writeFileStream(data, name);
             }
 
             if (Array.isArray(flags.output)) {

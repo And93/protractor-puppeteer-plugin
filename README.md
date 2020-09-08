@@ -212,8 +212,8 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
         [Types](https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16).
    * `connection` - Custom connection if it's not ChromeProtocol. If not present, the `host` and `port` are used;
         > [Source code](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/gather/connections/cri.js)
-   * `reportName` - If the 'reportName' parameter is passed, the report name will be: '%timestamp%_PID_%pid%_%reportName%.%format%'.
-        If not, will be the default: '%timestamp%_PID_%pid%_lighthouse_report.%format%'
+   * `reportName` - If the 'reportName' parameter is passed, the report name will be: '%timestamp%\_PID\_%pid%_%reportName%.%format%'.
+        If not, will be the default: '%timestamp%\_PID\_%pid%_lighthouse_report.%format%'
    
    During the execution Lighthouse opens a new tab, performs necessary actions, closes the tab and generates a report.
    More information about this class you can find here:

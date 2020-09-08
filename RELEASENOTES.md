@@ -1,5 +1,11 @@
 # Release notes
 
+## 5.1.1 - 2020-09-09
+
+### Added
+
+* Fixed parameters of `browser.lighthouse()` function
+
 ## 5.1.0 - 2020-09-09
 
 ### Added

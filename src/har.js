@@ -59,7 +59,6 @@ class HarHelper {
      * @return {Promise<void>}
      */
     stop(reportName = 'chrome_browser_har_log') {
-        const harFromMessages = har.harFromMessages(events);
 
         if (typeof reportName !== 'string' || reportName.length > 200) {
             const currentName = {
@@ -69,6 +68,8 @@ class HarHelper {
             }
             throw new Error(`The type of 'HAR' report prefix must be 'string' and contain no more than 200 symbols. Current ${JSON.stringify(currentName)}`);
         }
+
+        const harFromMessages = har.harFromMessages(events);
 
         const name = `${new Date().valueOf()}_PID_${process.pid}_${reportName.replace(/ /gm, '_')}.har`;
 

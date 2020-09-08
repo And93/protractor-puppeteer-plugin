@@ -40,13 +40,17 @@ class Lighthouse {
 
     /**
      * @param url {string}
-     * @param flags {LH.Flags=}
-     * @param config {LH.Config.Json=}
-     * @param connection {LH.Connection=}
-     * @param reportName {string=}
+     * @param params {{
+     *     flags: LH.Flags=,
+     *     config: LH.Config.Json=,
+     *     connection: LH.Connection=,
+     *     reportName: string=
+     * }}
      * @return {Promise<LH.RunnerResult>}
      */
-    async lighthouse(url, {flags, config, connection, reportName} = defaultParams) {
+    async lighthouse(url, params) {
+
+        const {flags, config, connection, reportName} = Object.assign({}, defaultParams, params);
 
         logger.info('Audit is started');
 
@@ -54,7 +58,7 @@ class Lighthouse {
 
         try {
             logger.debug(url);
-            logger.debug({flags, config, connection});
+            logger.debug({flags, config, connection, reportName});
 
             result = await lighthouseLib(url, flags, config, connection);
         } catch (e) {
@@ -107,8 +111,9 @@ class Lighthouse {
                     throw new Error(`The type of 'Lighthouse' report prefix must be 'string' and contain no more than 200 symbols. Current ${JSON.stringify(currentName)}`);
                 }
 
-                const name = `${new Date().valueOf()}_PID_${process.pid}_${reportName}.${extension}`;
+                const name = `${new Date().valueOf()}_PID_${process.pid}_${reportName.replace(/ /gm, '_')}.${extension}`;
 
+                logger.debug(`Report name: '${name}'`);
                 logger.info(`The '${extension}' report is generated'`);
 
                 fileSystem.writeFileStream(data, name);

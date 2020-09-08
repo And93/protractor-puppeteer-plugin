@@ -173,7 +173,10 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
      
     await browser.har.start();
     // test actions
-    await browser.har.stop(); // HAR file will stored automatically. Default: './artifacts/har/' directory.
+    await browser.har.stop(reportName);
+    // HAR file will stored automatically. Default: './artifacts/har/' directory.
+    // If the 'reportName' parameter is passed, the report name will be: '%timestamp%_PID_%pid%_%reportName%.har'
+    // If not, will be the default: '%timestamp%_PID_%pid%_chrome_browser_har_log.har'
     ```
 
     Saved files can be read by Chrome.
@@ -193,7 +196,7 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
     ```javascript
     const {browser} = require('protractor');
    
-    await browser.lighthouse(url, {flags?, config?, connection?});
+    await browser.lighthouse(url, {flags?, config?, connection?, reportName?});
     // The report(s) will stored automatically. Default: './artifacts/lighthouse/' directory; '.html' and '.json' formats.
     ```
    
@@ -209,6 +212,8 @@ The `cdp` property provides to use all features of Puppeteer after merging with 
         [Types](https://github.com/GoogleChrome/lighthouse/blob/master/types/config.d.ts#L16).
    * `connection` - Custom connection if it's not ChromeProtocol. If not present, the `host` and `port` are used;
         > [Source code](https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/gather/connections/cri.js)
+   * `reportName` - If the 'reportName' parameter is passed, the report name will be: '%timestamp%_PID_%pid%_%reportName%.%format%'.
+        If not, will be the default: '%timestamp%_PID_%pid%_lighthouse_report.%format%'
    
    During the execution Lighthouse opens a new tab, performs necessary actions, closes the tab and generates a report.
    More information about this class you can find here:
@@ -256,7 +261,8 @@ describe('Example suite', () => {
 
         await browser.har.start();
         await getStartedBrn.click();
-        await browser.har.stop();
+        await browser.har.stop('Protractor and Puppeteer together');
+        // Report name: '%timestamp%_PID_%pid%_Protractor_and_Puppeteer_together.har'
 
         expect(browser.$('aio-doc-viewer').isDisplayed()).to.eventually.equal(
             true,
@@ -284,7 +290,10 @@ describe('Example suite', () => {
     });
 
     it('Lighthouse example', async () => {
-        await browser.lighthouse('https://angular.io/');
+        await browser.lighthouse('https://angular.io/', {reportName: 'Lighthouse example'});
+        // Report names:
+        //  - '%timestamp%_PID_%pid%_Lighthouse_example.html'
+        //  - '%timestamp%_PID_%pid%_Lighthouse_example.json'
     });
 });
 ```

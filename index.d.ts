@@ -16,7 +16,7 @@ declare module 'protractor' {
         public readonly har: {
             start(): Promise<void>,
 
-            stop(): Promise<void>
+            stop(reportName?: string): Promise<void>
         };
 
         public readonly cdp: {
@@ -31,7 +31,7 @@ declare module 'protractor' {
 
         public readonly lighthouse: (
             url: string,
-            params?: { flags?: lighthouse.Flags, config?: lighthouse.Config.Json, connection?: lighthouse.Connection }
+            params?: { flags?: lighthouse.Flags, config?: lighthouse.Config.Json, connection?: lighthouse.Connection, reportName?: string }
         ) => Promise<lighthouse.RunnerResult>
     }
 

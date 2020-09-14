@@ -98,20 +98,24 @@ class Lighthouse {
         logger.info('Audit is finished');
 
         if (flags.output) {
+
+            if (typeof reportName !== 'string' || reportName.length > 200) {
+                const currentName = {
+                    name: reportName,
+                    type: typeof reportName,
+                    length: reportName.length
+                }
+                throw new Error(`The type of 'Lighthouse' report prefix must be 'string' and contain no more than 200 symbols. Current ${JSON.stringify(currentName)}`);
+            }
+
             fileSystem.makeDir();
 
-            function writeReport(data, extension) {
+            const timestamp = new Date().valueOf();
+            const {pid} = process;
+            const _reportName = reportName.replace(/ /gm, '_');
 
-                if (typeof reportName !== 'string' || reportName.length > 200) {
-                    const currentName = {
-                        name: reportName,
-                        type: typeof reportName,
-                        length: reportName.length
-                    }
-                    throw new Error(`The type of 'Lighthouse' report prefix must be 'string' and contain no more than 200 symbols. Current ${JSON.stringify(currentName)}`);
-                }
-
-                const name = `${new Date().valueOf()}_PID_${process.pid}_${reportName.replace(/ /gm, '_')}.${extension}`;
+            const writeReport = (data, extension) => {
+                const name = `${timestamp}_PID_${pid}_${_reportName}.${extension}`;
 
                 logger.debug(`Report name: '${name}'`);
                 logger.info(`The '${extension}' report is generated'`);

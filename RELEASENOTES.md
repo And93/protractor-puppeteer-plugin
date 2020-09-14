@@ -1,5 +1,11 @@
 # Release notes
 
+## 5.1.2 - 2020-09-14
+
+### Added
+
+* Fixed the name of 'Lighthouse' reports
+
 ## 5.1.1 - 2020-09-09
 
 ### Added

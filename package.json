@@ -1,6 +1,6 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "Plugin for merging puppeteer with protractor",
   "main": "index.js",
   "types": "index.d.ts",

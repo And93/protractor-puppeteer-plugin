@@ -1,5 +1,12 @@
 # Release notes
 
+## 5.1.3 - 2020-11-07
+
+### Added
+
+* Updated dependencies;
+* Fixed logger name;
+
 ## 5.1.2 - 2020-09-14
 
 ### Added

@@ -6,8 +6,8 @@ const {URL} = require('url');
 
 const FileSystem = require('./helpers/fileSystem');
 
-const {logger: loggerFn} = require('./helpers/logger');
-const logger = loggerFn('Protractor and Lighthouse');
+const {Logger} = require('./helpers/logger');
+const logger = Logger('Protractor and Lighthouse');
 
 let defaultParams;
 let fileSystem;

@@ -4,8 +4,8 @@ const har = require('chrome-har');
 
 const FileSystem = require('./helpers/fileSystem');
 
-const {logger: loggerFn} = require('./helpers/logger');
-const logger = loggerFn('Protractor and Puppeteer');
+const {Logger} = require('./helpers/logger');
+const logger = Logger('Protractor and Puppeteer');
 
 const observe = [
     'Page.loadEventFired',

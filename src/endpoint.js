@@ -2,8 +2,8 @@
 
 const protractor = require('protractor');
 
-const {logger: loggerFn} = require('./helpers/logger');
-const logger = loggerFn('Protractor and Puppeteer');
+const {Logger} = require('./helpers/logger');
+const logger = Logger('Protractor and Puppeteer');
 
 class Endpoint {
 

@@ -17,7 +17,7 @@ function setLogLevel(lvl) {
 /**
  * @param namespace {string}
  */
-function logger(namespace) {
+function Logger(namespace) {
     logLevel = logLevel.toLowerCase();
 
     if (logLevel === 'silent') {
@@ -76,6 +76,6 @@ function logger(namespace) {
 }
 
 module.exports = {
-    logger,
+    Logger,
     setLogLevel
 };

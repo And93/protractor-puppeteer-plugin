@@ -13,7 +13,8 @@ Also, this plugin can measure page performance using Lighthouse.
 | ^2.0.0                      | ^5.0.0     | ^3.0.0    | -          | ^10    |
 | ^3.0.0                      | ^5.0.0     | ^4.0.0    | -          | ^10    |
 | ^4.0.0                      | ^5.0.0     | ^5.0.0    | -          | ^10    |
-| ^5.0.0 (`Current`)          | ^5.0.0     | ^5.2.0    | ^6.3.0     | ^10    |
+| ^5.0.0                      | ^5.0.0     | ^5.2.0    | ^6.3.0     | ^10    |
+| ^5.2.0 (`Current`)          | ^5.0.0     | ^5.5.0    | ^7.0.0     | ^10    |
 
 ## How to add this plugin to protractor:
 

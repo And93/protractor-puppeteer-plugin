@@ -1,6 +1,6 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "5.1.3",
+  "version": "5.2.0",
   "description": "Plugin for merging puppeteer with protractor",
   "main": "index.js",
   "types": "index.d.ts",
@@ -27,9 +27,9 @@
   "bugs": "https://github.com/And93/protractor-puppeteer-plugin/issues",
   "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
   "dependencies": {
-    "@types/puppeteer-core": "^2.0.0",
+    "@types/puppeteer-core": "^5.4.0",
     "chrome-har": "^0.11.12",
-    "lighthouse": "^6.4.1",
+    "lighthouse": "^7.0.0",
     "puppeteer-core": "^5.5.0"
   },
   "devDependencies": {

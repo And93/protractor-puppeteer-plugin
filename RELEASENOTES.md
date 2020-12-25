@@ -1,5 +1,13 @@
 # Release notes
 
+## 5.2.0 - 2020-12-25
+
+### Added
+
+* Updated `@types/puppeteer-core@5.4.0`
+* Updated `lighthouse@7.0.0`
+    > (!) Lighthouse has breaking changes [Release notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v7.0.0)
+
 ## 5.1.3 - 2020-11-20
 
 ### Added

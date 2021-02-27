@@ -1,5 +1,17 @@
 # Release notes
 
+## 6.0.0 - 2021-02-27
+
+### Added
+
+* Updated `puppeteer-core@8.0.0`
+  > (!) Puppeteer has breaking changes. Release notes: 
+  > [@6.0.0](https://github.com/puppeteer/puppeteer/releases/tag/v6.0.0)
+  > [@7.0.0](https://github.com/puppeteer/puppeteer/releases/tag/v7.0.0)
+  > [@8.0.0](https://github.com/puppeteer/puppeteer/releases/tag/v8.0.0)
+* Updated `lighthouse@7.2.0`
+* Removed `@types/puppeteer-core` as a dependence
+
 ## 5.2.1 - 2021-02-27
 
 ### Added

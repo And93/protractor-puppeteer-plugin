@@ -8,11 +8,11 @@ const logger = Logger('Protractor and Puppeteer');
 class Puppeteer {
 
     /**
-     * @param defaultArgs {ChromeArgOptions=}
+     * @param defaultArgs {puppeteerLib.BrowserLaunchArgumentOptions=}
      * @param timeout {number=}
      * @param browserURL {string=}
      * @param browserWSEndpoint {string=}
-     * @param connectOptions {ConnectOptions=}
+     * @param connectOptions {puppeteerLib.ConnectOptions=}
      */
     constructor({defaultArgs, timeout, browserURL, browserWSEndpoint, connectOptions}) {
         this.defaultArgs = defaultArgs;

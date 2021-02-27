@@ -1,6 +1,6 @@
 /// <reference types="protractor" />
 
-import * as puppeteer from 'puppeteer';
+import * as puppeteer from 'puppeteer-core';
 import * as lighthouse from 'lighthouse';
 
 declare module 'protractor-puppeteer-plugin' {
@@ -42,9 +42,9 @@ declare module 'protractor' {
         readonly configFile?: string;
         readonly configOptions?: {
             readonly connectToBrowser?: boolean;
-            readonly connectOptions?: puppeteer.BrowserOptions;
+            readonly connectOptions?: puppeteer.ConnectOptions;
             readonly timeout?: number;
-            readonly defaultArgs?: puppeteer.ChromeArgOptions;
+            readonly defaultArgs?: puppeteer.BrowserLaunchArgumentOptions;
             readonly harDir?: string;
             readonly selenoid?: {
                 readonly host: string,

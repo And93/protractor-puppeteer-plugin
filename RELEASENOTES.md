@@ -1,12 +1,18 @@
 # Release notes
 
+## 5.2.1 - 2021-02-27
+
+### Added
+
+* Updated the version of NodeJS to 12.
+
 ## 5.2.0 - 2020-12-25
 
 ### Added
 
 * Updated `@types/puppeteer-core@5.4.0`
 * Updated `lighthouse@7.0.0`
-    > (!) Lighthouse has breaking changes [Release notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v7.0.0)
+  > (!) Lighthouse has breaking changes [Release notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v7.0.0)
 
 ## 5.1.3 - 2020-11-20
 
@@ -31,7 +37,7 @@
 
 ### Added
 
-* Added 'reportName' parameter to `browser.har.stop()` and `browser.lighthouse()` functions 
+* Added 'reportName' parameter to `browser.har.stop()` and `browser.lighthouse()` functions
 
 ## 5.0.2 - 2020-09-08
 
@@ -58,27 +64,28 @@
 ### Added
 
 * Updated the dependencies to `puppeteer@5.0.0`
-    > (!) Puppeteer has breaking changes [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v5.0.0)
+  > (!) Puppeteer has breaking changes [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v5.0.0)
 
 ## 3.0.0 - 2020-06-23
 
 ### Added
 
 * Updated the dependencies to `puppeteer@4.0.0`
-    > (!) Puppeteer has breaking changes [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v4.0.0)
+  > (!) Puppeteer has breaking changes [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v4.0.0)
 
 ## 2.3.1 - 2020-06-11
 
 ### Added
 
 * Added a verification whether a 'inline' plugin is present
-* Fixed the reference types of protractor 
+* Fixed the reference types of protractor
 
 ## 2.3.0 - 2020-06-07
 
 ### Added
 
-* Updated the dependencies to `puppeteer@3.3.0` [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v3.3.0)
+* Updated the dependencies
+  to `puppeteer@3.3.0` [Release notes](https://github.com/puppeteer/puppeteer/releases/tag/v3.3.0)
 * Updated README file
 
 ## 2.2.0 - 2020-05-30

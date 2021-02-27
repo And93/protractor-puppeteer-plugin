@@ -1,6 +1,6 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "Plugin for merging puppeteer with protractor",
   "main": "index.js",
   "types": "index.d.ts",
@@ -39,7 +39,7 @@
     "protractor": "^5.0.0"
   },
   "engines": {
-    "node": ">=10.18.1",
+    "node": ">=12",
     "npm": ">=6"
   }
 }

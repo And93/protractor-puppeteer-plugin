@@ -31,7 +31,10 @@ declare module 'protractor' {
 
         public readonly lighthouse: (
             url: string,
-            params?: { flags?: lighthouse.Flags, config?: lighthouse.Config.Json, connection?: lighthouse.Connection, reportName?: string }
+            params?: {
+                flags?: lighthouse.Flags, config?: lighthouse.Config.Json,
+                connection?: lighthouse.Connection, reportName?: string
+            }
         ) => Promise<lighthouse.RunnerResult>
     }
 

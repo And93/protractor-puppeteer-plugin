@@ -9,7 +9,7 @@ const Lighthouse = require('./lighthouse');
 const Puppeteer = require('./puppeteer');
 const Endpoint = require('./endpoint');
 
-let {Logger, setLogLevel} = require('./helpers/logger');
+const {Logger, setLogLevel} = require('./helpers/logger');
 const logger = Logger('Protractor and Puppeteer');
 
 module.exports = async function () {

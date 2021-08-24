@@ -1,7 +1,7 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "6.0.0",
-  "description": "Plugin for merging puppeteer with protractor",
+  "version": "7.0.0",
+  "description": "Plugin for using puppeteer with protractor together",
   "main": "index.js",
   "types": "index.d.ts",
   "repository": {
@@ -16,7 +16,6 @@
     "webdriverjs",
     "selenium-webdriver",
     "chrome devtools protocol",
-    "chrome",
     "cdp",
     "har",
     "devtools",
@@ -28,8 +27,8 @@
   "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
   "dependencies": {
     "chrome-har": "^0.11.12",
-    "lighthouse": "^7.2.0",
-    "puppeteer-core": "^8.0.0"
+    "lighthouse": "^8.3.0",
+    "puppeteer-core": "^10.2.0"
   },
   "devDependencies": {
     "protractor": "^7.0.0"

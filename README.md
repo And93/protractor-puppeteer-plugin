@@ -15,7 +15,8 @@ measure page performance using Lighthouse.
 | ^4.0.0                      | ^5.0.0     | ^5.0.0    | -          | ^10         |
 | ^5.0.0                      | ^5.0.0     | ^5.2.0    | ^6.3.0     | ^10         |
 | ^5.2.0                      | ^5.0.0     | ^5.5.0    | ^7.0.0     | ^12         |
-| ^6.0.0 (`Current`)          | ^5.0.0     | ^8.0.0    | ^7.2.0     | ^12.13.0    |
+| ^6.0.0                      | ^5.0.0     | ^8.0.0    | ^7.2.0     | ^12.13.0    |
+| ^7.0.0 (`Current`)          | ^5.0.0     | ^10.2.0   | ^8.3.0     | ^12.13.0    |
 
 ## How to add this plugin to protractor:
 
@@ -38,19 +39,19 @@ plugins: [{
                 isLandscape?: boolean (Default: false)
             },
             ignoreHTTPSErrors?: boolean, (Default: false)
-            slowMo?: number (Default: 0ms)
+            slowMo?: number, (Default: 0ms)
         },
         timeout?: number, (Default: 30000ms)
         defaultArgs?: {
             headless?: boolean,
             args?: Array<string>,
             userDataDir?: string,
-            devtools?: boolean
+            devtools?: boolean,
         },
         harDir?: './path/to/artifatcs/dir/', (Default: './artifacts/har/')
         selenoid?: {
             host: string, (E.g.: 'selenoid.example.com' or 'localhost')
-            port?: number (Default: 4444)
+            port?: number, (Default: 4444)
         },
         lighthouse?: {
             enabled?: boolean, (Default: false) // This prop allows to connect Lighthouse to Protractor
@@ -62,8 +63,8 @@ plugins: [{
                                             Default: https://github.com/GoogleChrome/lighthouse/blob/master/lighthouse-core/config/lr-desktop-config.js#L11
             reportsDir?: string (Default: './artifacts/lighthouse/')
         },
-        logLevel?: 'verbose' | 'info' | 'warn' | 'error' | 'silent' (Default: 'info') // Changes the plugin logs
-    }
+        logLevel?: 'verbose' | 'info' | 'warn' | 'error' | 'silent', (Default: 'info') // Changes the plugin logs
+    },
 }]
 ```
 
@@ -225,11 +226,13 @@ E.g.:
 
 ### Example:
 
+#### Javascript
+
 ```javascript    
 // protractor.conf.js
 plugins: [{
     package: 'protractor-puppeteer-plugin',
-    configFile: './path/to/puppeteer.conf.json'
+    configFile: './path/to/puppeteer.conf.json',
 }]
 
 // puppeteer.conf.json
@@ -303,11 +306,13 @@ describe('Example suite', () => {
 });
 ```
 
+#### Typescript
+
 ```typescript
 // ============== TypeScript ==============
 // protractor.conf.ts
 import {Config} from 'protractor';
-import 'protractor-puppeteer-plugin'; // to have autocomplete
+import 'protractor-puppeteer-plugin'; // to have autocomplete OR add 'protractor-puppeteer-plugin' value to types in tsconfig.json https://www.typescriptlang.org/tsconfig#types
 
 export const config: Config = {
     // ...
@@ -319,7 +324,7 @@ export const config: Config = {
 
 // awesome.test.ts
 import {browser} from 'protractor';
-import 'protractor-puppeteer-plugin'; // to have autocomplete
+import 'protractor-puppeteer-plugin'; // to have autocomplete OR add 'protractor-puppeteer-plugin' value to types in tsconfig.json https://www.typescriptlang.org/tsconfig#types
 
 describe('Example suite', () => {
     it('Simple test', async () => { 
@@ -388,10 +393,9 @@ describe('Lighthouse workaround', () => {
         await browser.get('https://angular.io/');
         await browser.$('.button.hero-cta').click();
         await browser.lighthouse('https://angular.io/'); // Error: You probably have multiple tabs open to the same origin.
-    })
+    });
 
     it('Successful test', async () => {
-
         // await browser.cdp.page.goto('https://angular.io/');
         // or
         await browser.get('https://angular.io/');

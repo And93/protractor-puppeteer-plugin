@@ -17,7 +17,7 @@ module.exports = async function () {
     const {capabilities, plugins} = await protractor.browser.getProcessedConfig();
 
     if (capabilities.browserName !== 'chrome') {
-        throw new Error('Supported only Chrome browser.');
+        throw new Error(`Supported only Chrome browser. Current: ${capabilities.browserName}`);
     }
 
     for (const plugin of plugins) {

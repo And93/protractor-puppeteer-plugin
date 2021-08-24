@@ -1,5 +1,17 @@
 # Release notes
 
+## 7.0.0 - 2021-08-24
+
+### Added
+
+* Updated `puppeteer-core@10.2.0`
+  > (!) Puppeteer has breaking changes. Release notes: 
+  > [@9.0.0](https://github.com/puppeteer/puppeteer/releases/tag/v9.0.0)
+  > [@10.0.0](https://github.com/puppeteer/puppeteer/releases/tag/v10.0.0)
+* Updated `lighthouse@8.3.0`
+  > (!) Lighthouse has breaking changes. Release notes: 
+  > [@8.0.0](https://github.com/GoogleChrome/lighthouse/releases/tag/v8.0.0)
+
 ## 6.0.0 - 2021-02-27
 
 ### Added

@@ -32,7 +32,7 @@ function Logger(namespace) {
     const log = (type, value) => {
         const date = new Date();
         const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
-        return `[${time}] [PID: ${process.pid}] [${type}] ${namespace} - ${JSON.stringify(value)}`;
+        return `[${time}] [PID: ${process.pid}] [${type}] ${namespace} - ${JSON.stringify(value, null, 2)}`;
     };
 
     return {

@@ -1,5 +1,20 @@
 # Release notes
 
+## 8.0.0 - 2022-01-15
+
+### Added
+
+* Updated `puppeteer-core@13.0.1`
+  > (!) Puppeteer has breaking changes. Release notes: 
+  > [@11.0.0](https://github.com/puppeteer/puppeteer/releases/tag/v11.0.0)
+  > [@12.0.0](https://github.com/puppeteer/puppeteer/releases/tag/v12.0.0)
+  > [@13.0.0](https://github.com/puppeteer/puppeteer/releases/tag/v13.0.0)
+* Updated `lighthouse@9.2.0`
+  > (!) Lighthouse has breaking changes. Release notes: 
+  > [@9.0.0](https://github.com/GoogleChrome/lighthouse/releases/tag/v9.0.0)
+* Updated `chrome-har@0.12.0`
+  > [@0.12.0](https://github.com/sitespeedio/chrome-har/releases/tag/v0.12.0)
+
 ## 7.0.0 - 2021-08-24
 
 ### Added

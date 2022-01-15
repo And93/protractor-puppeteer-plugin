@@ -1,6 +1,6 @@
 {
   "name": "protractor-puppeteer-plugin",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "description": "Plugin for using puppeteer with protractor together",
   "main": "index.js",
   "types": "index.d.ts",
@@ -26,9 +26,9 @@
   "bugs": "https://github.com/And93/protractor-puppeteer-plugin/issues",
   "homepage": "https://github.com/And93/protractor-puppeteer-plugin#readme",
   "dependencies": {
-    "chrome-har": "^0.11.12",
-    "lighthouse": "^8.3.0",
-    "puppeteer-core": "^10.2.0"
+    "chrome-har": "^0.12.0",
+    "lighthouse": "^9.2.0",
+    "puppeteer-core": "^13.0.1"
   },
   "devDependencies": {
     "protractor": "^7.0.0"
@@ -37,6 +37,6 @@
     "protractor": "^5.0.0"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=14"
   }
 }
